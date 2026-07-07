@@ -1,8 +1,8 @@
 schemaVersion: 2.1.0
 metadata:
-  name: REPLACEREPONAME-dev
-  displayName: RHODS Quick Course
-  description: RHODS Quick Course published using Antora
+  name: nemo-guardrails-garak-dev
+  displayName: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
+  description: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub Quick Course published using Antora
   icon: https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg
   tags:
     - Node.js
@@ -12,10 +12,10 @@ metadata:
   language: JavaScript
   version: 2.1.1
 starterProjects:
-  - name: REPLACEREPONAME-dev
+  - name: nemo-guardrails-garak-dev
     git:
       remotes:
-        origin: 'https://github.com/RedHatTraining/REPLACEREPONAME.git'
+        origin: 'https://github.com/RedHatTraining/nemo-guardrails-garak.git'
 components:
   - name: runtime
     container:

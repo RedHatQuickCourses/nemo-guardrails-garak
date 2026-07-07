@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  title: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
+  start_page: nemo-guardrails-garak::index.adoc
 
 content:
   sources:
