@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Section 3 :: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</title>
+    <title>Industry-specific self-check guardrail examples :: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</title>
     <link rel="prev" href="section8.html">
-    <link rel="next" href="tabs-demo.html">
+    <link rel="next" href="../chapter2/index.html">
     <meta name="generator" content="Antora 3.2.0-alpha.12">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
@@ -51,7 +51,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+    <a class="nav-link" href="../LABENV/index-lab-demo.html">Lab Environment</a>
   </li>
 </ul>
   </li>
@@ -59,43 +59,34 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Chapter 1</a>
+    <a class="nav-link" href="index.html">NeMo Guardrails</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section1.html">Section 1</a>
+    <a class="nav-link" href="section1.html">What are NeMo Guardrails?</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section2.html">Section 2</a>
+    <a class="nav-link" href="section2.html">NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section3.html">Section 3</a>
+    <a class="nav-link" href="section3.html">NeMo Guardrails Configuration - Lemonade Stand with Regex Detection</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section4.html">Section 3</a>
+    <a class="nav-link" href="section4.html">NeMo Guardrails Configuration - Lemonade Stand with Regex Detection and PII</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section5.html">Section 3</a>
+    <a class="nav-link" href="section5.html">NeMo Guardrails Configuration - Lemonade Stand with LLM-as-Judge + Regex Detection + PII</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section6.html">Section 3</a>
+    <a class="nav-link" href="section6.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section7.html">Section 3</a>
+    <a class="nav-link" href="section7.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section8.html">Section 3</a>
+    <a class="nav-link" href="section8.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="section9.html">Section 3</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="tabs-demo.html">Tabbed code blocks</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="collapsible-demo.html">Collapsible blocks</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="images.html">Images</a>
+    <a class="nav-link" href="section9.html">Industry-specific self-check guardrail examples</a>
   </li>
 </ul>
   </li>
@@ -105,13 +96,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../chapter2/index.html">Chapter 2</a>
+    <a class="nav-link" href="../chapter2/index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/section1.html">Section 1</a>
+    <a class="nav-link" href="../chapter2/section1.html">Evaluating AI Systems</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/section2.html">Section 1</a>
+    <a class="nav-link" href="../chapter2/section2.html">Deploy EvalHub with the TrustyAI Operator</a>
   </li>
 </ul>
   </li>
@@ -146,8 +137,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a></li>
-    <li><a href="index.html">Chapter 1</a></li>
-    <li><a href="section9.html">Section 3</a></li>
+    <li><a href="index.html">NeMo Guardrails</a></li>
+    <li><a href="section9.html">Industry-specific self-check guardrail examples</a></li>
   </ul>
 </nav>
 </div>
@@ -156,26 +147,74 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Section 3</h1>
+<h1 class="page">Industry-specific self-check guardrail examples</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This page demonstrates <a href="https://docs.asciidoctor.org/asciidoc/latest/blocks/collapsible/" target="_blank" rel="noopener">collapsible example blocks</a> in Antora: use them for optional <strong>Hints</strong>, <strong>Deep dives</strong>, or other detail that should not block the main lesson flow.</p>
+</div>
+<div class="paragraph">
+<p>No extra Antora extension is required; <code>[%collapsible]</code> is built into Asciidoctor.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hint_collapsed_by_default"><a class="anchor" href="#_hint_collapsed_by_default"></a>Hint (collapsed by default)</h2>
+<div class="sectionbody">
+<details>
+<summary class="title">Hint</summary>
+<div class="content">
+<div class="paragraph">
+<p>Try the exercise first; open this only if you are stuck.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create multiple copies of this section as needed.</p>
+<p>Check that your environment variables are set.</p>
 </li>
 <li>
-<p>Remove any unnecessary sections or chapter pages.</p>
-</li>
-<li>
-<p>Customize the section as appropriate.</p>
-</li>
-<li>
-<p>Ensure that each page contains a manageable amount of content.</p>
+<p>Re-read the previous section on configuration.</p>
 </li>
 </ul>
 </div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deep_dive_collapsed_by_default"><a class="anchor" href="#_deep_dive_collapsed_by_default"></a>Deep dive (collapsed by default)</h2>
+<div class="sectionbody">
+<details>
+<summary class="title">Deep dive: how the pipeline stages relate</summary>
+<div class="content">
+<div class="paragraph">
+<p>The build runs <strong>validate</strong>, then <strong>compile</strong>, then <strong>package</strong>. Skipping a stage can leave artifacts out of date; that is why CI always runs the full chain.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew clean build</code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_starts_expanded"><a class="anchor" href="#_starts_expanded"></a>Starts expanded</h2>
+<div class="sectionbody">
+<details open>
+<summary class="title">Optional context</summary>
+<div class="content">
+<div class="paragraph">
+<p>This block uses <code>[%collapsible%open]</code> so it is expanded on first load. Use sparingly when the extra context is still optional but you want it visible by default.</p>
+</div>
+</div>
+</details>
+</div>
+</div>
 <nav class="pagination">
-  <span class="prev"><a href="section8.html">Section 3</a></span>
-  <span class="next"><a href="tabs-demo.html">Tabbed code blocks</a></span>
+  <span class="prev"><a href="section8.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection</a></span>
+  <span class="next"><a href="../chapter2/index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a></span>
 </nav>
 </article>
   </div>

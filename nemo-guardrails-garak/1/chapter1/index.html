@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Chapter 1 :: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</title>
-    <link rel="prev" href="../LABENV/index.html">
+    <title>NeMo Guardrails :: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</title>
+    <link rel="prev" href="../LABENV/index-lab-demo.html">
     <link rel="next" href="section1.html">
     <meta name="generator" content="Antora 3.2.0-alpha.12">
     <link rel="stylesheet" href="../../../_/css/site.css">
@@ -51,7 +51,7 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+    <a class="nav-link" href="../LABENV/index-lab-demo.html">Lab Environment</a>
   </li>
 </ul>
   </li>
@@ -59,43 +59,34 @@
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Chapter 1</a>
+    <a class="nav-link" href="index.html">NeMo Guardrails</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section1.html">Section 1</a>
+    <a class="nav-link" href="section1.html">What are NeMo Guardrails?</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section2.html">Section 2</a>
+    <a class="nav-link" href="section2.html">NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section3.html">Section 3</a>
+    <a class="nav-link" href="section3.html">NeMo Guardrails Configuration - Lemonade Stand with Regex Detection</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section4.html">Section 3</a>
+    <a class="nav-link" href="section4.html">NeMo Guardrails Configuration - Lemonade Stand with Regex Detection and PII</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section5.html">Section 3</a>
+    <a class="nav-link" href="section5.html">NeMo Guardrails Configuration - Lemonade Stand with LLM-as-Judge + Regex Detection + PII</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section6.html">Section 3</a>
+    <a class="nav-link" href="section6.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section7.html">Section 3</a>
+    <a class="nav-link" href="section7.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section8.html">Section 3</a>
+    <a class="nav-link" href="section8.html">NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section9.html">Section 3</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="tabs-demo.html">Tabbed code blocks</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="collapsible-demo.html">Collapsible blocks</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="images.html">Images</a>
+    <a class="nav-link" href="section9.html">Industry-specific self-check guardrail examples</a>
   </li>
 </ul>
   </li>
@@ -105,13 +96,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../chapter2/index.html">Chapter 2</a>
+    <a class="nav-link" href="../chapter2/index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/section1.html">Section 1</a>
+    <a class="nav-link" href="../chapter2/section1.html">Evaluating AI Systems</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../chapter2/section2.html">Section 1</a>
+    <a class="nav-link" href="../chapter2/section2.html">Deploy EvalHub with the TrustyAI Operator</a>
   </li>
 </ul>
   </li>
@@ -146,7 +137,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a></li>
-    <li><a href="index.html">Chapter 1</a></li>
+    <li><a href="index.html">NeMo Guardrails</a></li>
   </ul>
 </nav>
 </div>
@@ -155,23 +146,23 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Chapter 1</h1>
+<h1 class="page">NeMo Guardrails</h1>
 <div class="paragraph">
-<p>In this section, we cover&#8230;&#8203; FIXME</p>
+<p>In this chapter, focus is on the following objectives:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Add or remove section entries in the <code>antora.yaml</code> file as needed.</p>
+<p>Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls</p>
 </li>
 <li>
-<p>Ensure you create or delete the corresponding directory for the chapter accordingly.</p>
+<p>Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails</p>
 </li>
 </ul>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="../LABENV/index.html">Lab Environment</a></span>
-  <span class="next"><a href="section1.html">Section 1</a></span>
+  <span class="prev"><a href="../LABENV/index-lab-demo.html">Lab Environment</a></span>
+  <span class="next"><a href="section1.html">What are NeMo Guardrails?</a></span>
 </nav>
 </article>
   </div>
