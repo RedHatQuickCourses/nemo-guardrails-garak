@@ -189,19 +189,29 @@
 </div>
 </li>
 <li>
-<p>Create DataScience cluster with default values.</p>
+<p>Create Data Science cluster with default values.</p>
 </li>
 <li>
 <p>Ensure trustyAI is in Managed state.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Select the <code>default-dsc</code> resource from <code>Data Science Cluster</code> tab.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/openshift_ai_operator-1.png" alt="openshift ai operator 1">
 </div>
 </div>
+</li>
+<li>
+<p>Switch the tab to <code>YAML</code>.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/openshift_ai_operator-2.png" alt="openshift ai operator 2">
 </div>
+</div>
+</li>
+</ol>
 </div>
 </li>
 </ol>
@@ -212,7 +222,7 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>You will use models from MaaS (Model-as-a-Service) by RHDP.</p>
+<p>Use models from MaaS (Model-as-a-Service) by RHDP.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -246,7 +256,7 @@
 <div class="olist lowerroman">
 <ol class="lowerroman" type="i">
 <li>
-<p>Search the models (<code>microsoft-phi-4</code>, <code>granite-4-0-h-tiny-cpu</code> and <code>llama-scout-17b</code>) and subsribe them.</p>
+<p>Search the models (<code>microsoft-phi-4</code>, <code>granite-4-0-h-tiny-cpu</code> and <code>llama-scout-17b</code>) and subscribe them.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/maas-4.png" alt="maas 4">
@@ -348,15 +358,15 @@ ls</code></pre>
 <div class="content">
 <div class="ulist tablist">
 <ul>
-<li id="_tabs_1_configmap_yaml_file_highlights" class="tab">
-<p>configmap.yaml File Highlights</p>
+<li id="_tabs_1_highlights" class="tab">
+<p>Highlights</p>
 </li>
-<li id="_tabs_1_configmap_yaml_file_content" class="tab">
-<p>configmap.yaml File Content</p>
+<li id="_tabs_1_content" class="tab">
+<p>Content</p>
 </li>
 </ul>
 </div>
-<div id="_tabs_1_configmap_yaml_file_highlights--panel" class="tabpanel" aria-labelledby="_tabs_1_configmap_yaml_file_highlights">
+<div id="_tabs_1_highlights--panel" class="tabpanel" aria-labelledby="_tabs_1_highlights">
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -374,7 +384,7 @@ ls</code></pre>
 </ol>
 </div>
 </div>
-<div id="_tabs_1_configmap_yaml_file_content--panel" class="tabpanel" aria-labelledby="_tabs_1_configmap_yaml_file_content">
+<div id="_tabs_1_content--panel" class="tabpanel" aria-labelledby="_tabs_1_content">
 <div class="listingblock execute">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
@@ -390,12 +400,12 @@ data:
       - type: main
         engine: openai
         parameters:
-          *openai_api_base: ${LLM_API_BASE}*
-          *model_name: ${LLM_MODEL_NAME}*
-          *api_key: ${LLM_API_KEY}*
+          <strong>openai_api_base: ${LLM_API_BASE}</strong>
+          <strong>model_name: ${LLM_MODEL_NAME}</strong>
+          <strong>api_key: ${LLM_API_KEY}</strong>
 
     # System instructions - adapted from lemonade stand system prompt
-    *instructions:*
+    <strong>instructions:</strong>
       - type: general
         content: |
           You are a helpful assistant specialized exclusively in lemons.
@@ -415,7 +425,7 @@ data:
           Language rule: Respond only in English. If the user writes in another language, refuse and ask them to rephrase in English.
 
     # No rails configured - this is a basic chat endpoint without guardrails
-    *rails:*
+    <strong>rails:</strong>
       input:
         flows: []
       output:
@@ -430,43 +440,320 @@ data:
 </div>
 </div>
 </li>
+<li>
+<p>Review the <code>secret.yaml</code> file.</p>
+<div id="_tabs_2" class="openblock tabs is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_2_highlights" class="tab">
+<p>Highlights</p>
+</li>
+<li id="_tabs_2_content" class="tab">
+<p>Content</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_2_highlights--panel" class="tabpanel" aria-labelledby="_tabs_2_highlights">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Create an <code>Opaque</code> secret with literal values in OpenShift.</p>
+</li>
+<li>
+<p>The environment variables related to LLM from the previous export command are used in this file.</p>
+</li>
+<li>
+<p>You can also create the secret using the command line.</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="_tabs_2_content--panel" class="tabpanel" aria-labelledby="_tabs_2_content">
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: lemonade-secret
+type: Opaque
+stringData:
+  api-base: <strong>"${LLM_API_BASE}"</strong>
+  model-name: <strong>"${LLM_MODEL_NAME}"</strong>
+  api-key: <strong>"${LLM_API_KEY}"</strong></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Review the <code>nemo.yaml</code> file.</p>
+<div id="_tabs_3" class="openblock tabs is-loading">
+<div class="content">
+<div class="ulist tablist">
+<ul>
+<li id="_tabs_3_highlights" class="tab">
+<p>Highlights</p>
+</li>
+<li id="_tabs_3_content" class="tab">
+<p>Content</p>
+</li>
+</ul>
+</div>
+<div id="_tabs_3_highlights--panel" class="tabpanel" aria-labelledby="_tabs_3_highlights">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>NeMo configuration <code>lemonade-config</code> <code>configMaps</code> which was created before is mentioned under <code>nemoConfigs</code> in this <code>NemoGuardrails</code> resource.</p>
+</li>
+<li>
+<p>Secret is referred to in this resource.</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="_tabs_3_content--panel" class="tabpanel" aria-labelledby="_tabs_3_content">
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: trustyai.opendatahub.io/v1alpha1
+kind: NemoGuardrails
+metadata:
+  name: lemonade
+spec:
+  nemoConfigs:
+    - name: lemonade-stand
+      default: true
+      <strong>configMaps</strong>:
+        - <strong>lemonade-config</strong>
+  env:
+    - name: LLM_API_BASE
+      valueFrom:
+        secretKeyRef:
+          name: <strong>lemonade-secret</strong>
+          key: api-base
+    - name: LLM_MODEL_NAME
+      valueFrom:
+        secretKeyRef:
+          name: <strong>lemonade-secret</strong>
+          key: model-name
+    - name: LLM_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: <strong>lemonade-secret</strong>
+          key: api-key</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Now, you have all configuration files.
+Deploy with envsubst command.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message
+envsubst &lt; secret.yaml | oc apply -f -
+envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' &lt; configmap.yaml | oc apply -f -
+oc apply -f nemo.yaml</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Envsubst is a lightweight command-line utility used for environment variable substitution in configuration files, shell scripts, and DevOps automation workflows across Linux systems.
+</td>
+</tr>
+</table>
+</div>
+</li>
 </ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_testing"><a class="anchor" href="#_testing"></a>Testing</h3>
-<div class="paragraph">
-<p>.</p>
-</div>
-<div class="paragraph">
-<p>+</p>
-</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Get the route URL.</p>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"></code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">NEMO_ROUTE=$(oc get route lemonade -o jsonpath='{.spec.host}')
+echo "NeMo Guardrails URL: https://$NEMO_ROUTE"</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>.</p>
+</li>
+<li>
+<p>The NeMo Guardrails service provides two main API endpoints for different use cases:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>/v1/guardrail/checks</strong>: Use this endpoint to validate messages against configured guardrails without generating an LLM response.
+It helps to test guardrail configurations, validate content before sending it to an LLM, or implement custom validation workflows.
+For RAG and agentic workflows, you can send the retrieval or tool payloads to the /v1/guardrail/checks endpoint for validation.</p>
+</li>
+<li>
+<p><strong>/v1/chat/completions</strong>: Use this endpoint to generate LLM responses with guardrails applied to both input and output.
+The /v1/chat/completions endpoint processes user messages through input rails, generates an LLM response, and validates the response through output rails before returning it to the user.</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
+</li>
+<li>
+<p>Test with a basic lemon question.
+This will work as you are asking about the lemons.</p>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"></code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",<strong>"content":"What are the health benefits of lemons?"</strong>}]
+  }' | jq</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{
+  "id": "chatcmpl-9348e42d-8f09-4736-a9c2-d2124d3e8ceb",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        <strong>"content"</strong>: <strong>"Lemons are rich in vitamin C, which is important for a healthy immune system and skin. They contain flavonoids, compounds that act as antioxidants to help protect cells from damage. Lemons also have a high content of citric acid and limonoids, which may aid in digestion and have been studied for their potential in cancer prevention. Additionally, they can support heart health due to their role in reducing cholesterol levels, calcium buildup, and blood pressure. The high potassium content in lemons can also benefit heart function and help maintain normal blood pressure. Lastly, the fiber in lemons can aid in digestion and promote gastrointestinal health."</strong>,
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782145838,
+  "model": "microsoft-phi-4",
+  "object": "chat.completion",
+  "guardrails": {
+    "config_id": "lemonade-stand"
+  }
+}</code></pre>
 </div>
-<div class="paragraph">
-<p>+</p>
 </div>
+</li>
+<li>
+<p>If you check with /v1/guardrail/checks endpoint then you notice that rails_status is blank and no data in guardrails_data.</p>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"></code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -s -X POST "https://$NEMO_ROUTE/v1/guardrail/checks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",<strong>"content":"What are the health benefits of lemons?"</strong>}]
+  }' | jq</code></pre>
 </div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{
+  <strong>"status"</strong>: <strong>"success"</strong>,
+  <strong>"rails_status"</strong>: {},
+  "messages": [
+    {
+      "index": 0,
+      "role": "user",
+      "rails": {}
+    }
+  ],
+  "guardrails_data": {
+    "log": {
+      <strong>"activated_rails"</strong>: [],
+      "stats": {
+        "input_rails_duration": null,
+        "dialog_rails_duration": null,
+        "generation_rails_duration": null,
+        "output_rails_duration": null,
+        "total_duration": 0.0066564083099365234,
+        "llm_calls_duration": 0,
+        "llm_calls_count": 0,
+        "llm_calls_total_prompt_tokens": 0,
+        "llm_calls_total_completion_tokens": 0,
+        "llm_calls_total_tokens": 0
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now test the off topic question.
+This will not work as it is not related to lemons.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",<strong>"content":"Tell me about oranges"</strong>}]
+  }' | jq</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{
+  "id": "chatcmpl-24e27cbf-fca7-4ae5-ad53-a52f8f7dbd09",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        <strong>"content"</strong>: <strong>"I'm sorry, but I specialize exclusively in lemons and can only provide information directly related to lemons. If you have questions about lemons, like their cultivation, varieties, or uses, feel free to ask!"</strong>,
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782145900,
+  "model": "microsoft-phi-4",
+  "object": "chat.completion",
+  "guardrails": {
+    "config_id": "lemonade-stand"
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let’s see what the streaming response looks like.
+Here you add a stream key with value as true to get the streaming response.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user","content":"Give me a recipe for lemonade"}],
+    <strong>"stream"</strong>: <strong>true</strong>
+  }'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "Certa"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "i"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "nly"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "! To "}, "index": 0, "finish_reason": null}]}
+...
+...
+...
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "eel. E"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "n"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "joy!"}, "index": 0, "finish_reason": null}]}
+data: [DONE]</code></pre>
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
