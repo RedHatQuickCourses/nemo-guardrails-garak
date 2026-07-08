@@ -148,7 +148,161 @@
 </aside>
 <article class="doc">
 <h1 class="page">What are NeMo Guardrails?</h1>
-
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>NeMo Guardrails</strong> is underpinned by the open-source project <a href="https://github.com/NVIDIA-NeMo/Guardrails/tree/develop">NVIDIA NeMo Guardrails</a>.
+You can deploy the NeMo Guardrails service through a Custom Resource Definition (CRD) that is managed by the TrustyAI Operator.</p>
+</div>
+<div class="paragraph">
+<p><strong>NeMo Guardrails</strong> is a service available in Red Hat OpenShift AI designed to ensure the safety, transparency, and reliability of your generative AI models.
+It works by placing a modular set of detectors along the input and output pathways of an AI model to moderate the kinds of interactions users can have with it.</p>
+</div>
+<div class="paragraph">
+<p>You can configure NeMo Guardrails by setting up <strong>Input Rails, Output Rails, and Retrieval Rails</strong> to manage how data flows to and from the model.
+It is highly customizable, allowing you to add custom rails using Python actions, configure LLM self-check guardrails, and even use a separate, dedicated model specifically to handle these self-checks.</p>
+</div>
+<div class="paragraph">
+<p>Implementing a guardrail system like NeMo Guardrails is critical for several reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Preventing Prompt Injections and Jailbreaks</strong>: In an unguardrailed deployment, anyone can send inputs to a model and potentially trick it (prompt injection) into generating restricted information or unwanted official company policy.
+Guardrails detect and block these malicious inputs before they ever reach the model.</p>
+</li>
+<li>
+<p><strong>Content Moderation</strong>: Guardrails prevent models from outputting unacceptable content by actively detecting hate speech, profanity, and overly aggressive language.</p>
+</li>
+<li>
+<p><strong>Data Privacy</strong>: NeMo Guardrails can be configured to detect Personally Identifiable Information (PII) using tools like Presidio. When PII is detected, the guardrails can be set to either completely block the interaction or mask the sensitive data.</p>
+</li>
+<li>
+<p><strong>Domain and Industry Authority</strong>: Guardrails ensure that a model only speaks about subjects it is well-informed on and has the authority to discuss.
+Furthermore, NeMo Guardrails allows you to set up industry-specific self-checks, such as tailored safety rules for the financial services or telecommunications industries.</p>
+</li>
+<li>
+<p><strong>Reducing Inference Costs</strong>: Generative models are massive and expensive to run, but guardrail detectors are typically orders of magnitude smaller (e.g., tens of millions of parameters instead of tens of billions).
+By short-circuiting forbidden, irrelevant, or off-topic queries at the guardrail level, you can prevent them from hitting your expensive generative model, saving massively on computation and inference costs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let’s hear the story of one of the famous companies from the food industry on their journey with AI bot integration.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_story_of_lemonades_when_citrus_meets_cybernetics"><a class="anchor" href="#_the_story_of_lemonades_when_citrus_meets_cybernetics"></a>The Story of Lemonades: When Citrus Meets Cybernetics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every great company starts with a simple premise.
+For Lemonades, the premise was right there in the name: make the best possible lemonade using only the finest, hand-picked lemons.
+But while their ingredients were rooted in traditional agriculture, their vision was firmly planted in the future.</p>
+</div>
+<div class="paragraph">
+<p>Here is the story of how a humble beverage company built an AI-powered empire, and how they kept their digital systems as pure as their ingredients.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_root_of_the_squeeze"><a class="anchor" href="#_the_root_of_the_squeeze"></a>The Root of the Squeeze</h3>
+<div class="paragraph">
+<p>Lemonades was founded by a duo of unlikely partners: an organic citrus farmer and a former Silicon Valley data scientist.
+They realized that the perfect glass of lemonade isn&#8217;t just about squeezing fruit; it’s an exact science.
+Soil acidity, harvest time, ambient temperature, and the precise ratio of water to cane sugar all dictate the final flavor profile.</p>
+</div>
+<div class="paragraph">
+<p>They sourced the best lemons in the world, but they wanted to offer customers a deeply personalized experience.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_lemonade_stand_initiative"><a class="anchor" href="#_the_lemonade_stand_initiative"></a>The "Lemonade Stand" Initiative</h3>
+<div class="paragraph">
+<p>To scale this personalization, Lemonades launched <strong>Lemonade Stand</strong>, a customer-facing Large Language Model (LLM) integrated into their app and smart-kiosks.
+Customers could chat with <strong>Lemonade Stand</strong> to order their perfect drink.</p>
+</div>
+<div class="paragraph">
+<p><em>"I&#8217;ve had a rough day, it&#8217;s 90 degrees out, and I want something tart but soothing."</em></p>
+</div>
+<div class="paragraph">
+<p>Lemonade Stand would instantly calculate the perfect recipe—a blend of Meyer lemons, a hint of mint, and a specific sugar ratio—and send it to the automated dispensers.
+The AI was a massive hit, but the team soon discovered that dealing with public-facing AI can leave a sour taste in your mouth.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_sour_patch"><a class="anchor" href="#_the_sour_patch"></a>The Sour Patch</h3>
+<div class="paragraph">
+<p>As Lemonades grew, internet trolls and malicious actors discovered Lemonade Stand. Because the underlying LLM was highly capable, users started trying to "jailbreak" the lemonade bot.</p>
+</div>
+<div class="paragraph">
+<p>Instead of ordering drinks, people were manipulating Lemonade Stand into:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Giving out competitors' closely guarded trade secrets.</p>
+</li>
+<li>
+<p>Generating Python code instead of beverage recipes.</p>
+</li>
+<li>
+<p>Making bold, legally problematic medical claims about the healing properties of vitamin C.</p>
+</li>
+<li>
+<p>Getting tricked into offering 100% discount codes through prompt injection attacks.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Lemonades needed a way to keep their AI secure, on-brand, and strictly focused on lemons.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_securing_the_juice_garak_and_nemo_guardrails"><a class="anchor" href="#_securing_the_juice_garak_and_nemo_guardrails"></a>Securing the Juice: Garak and NeMo Guardrails</h3>
+<div class="paragraph">
+<p>The engineering team at Lemonades realized that building a great AI was only half the battle; securing it was the other.
+They completely overhauled their AI pipeline using two industry-leading tools:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Stress-Testing with Garak:</strong> Before deploying any new version of Lemonade Stand, the team brought in <strong>Garak</strong> (an LLM vulnerability scanner).
+They used Garak to relentlessly red-team their models.
+Garak systematically bombarded Lemonade Stand with thousands of known prompt injections, hallucination triggers, and data-leakage attempts.
+This allowed the Lemonades engineering team to map exactly where their AI was weak and patch the vulnerabilities before the public ever saw them.</p>
+</li>
+<li>
+<p><strong>S*taying on Track with NeMo Guardrails</strong>: To control the AI&#8217;s behavior in real-time, Lemonades implemented <strong>NVIDIA NeMo Guardrails</strong>.
+They built strict operational boundaries around Lemonade Stand:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Topical Guardrails</strong>: If a user asks Lemonade Stand to write an essay on history or write software code, the guardrail gently pivots the conversation: "I&#8217;m an expert in citrus, not software! How about a refreshing classic lemonade instead?"</p>
+</li>
+<li>
+<p><strong>Safety Guardrails</strong>: NeMo prevents the bot from offering unauthorized discounts or spewing toxic language, no matter how aggressively the user prompts it.</p>
+</li>
+<li>
+<p><strong>Fact-Checking</strong>: It ensures Lemonade Stand only shares accurate, scientifically sound information about their ingredients, preventing hallucinations about lemon-based "miracle cures."</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_sweet_success"><a class="anchor" href="#_the_sweet_success"></a>The Sweet Success</h3>
+<div class="paragraph">
+<p>Today, Lemonades is the gold standard for food-tech integration.
+By utilizing Garak to discover blind spots and NeMo Guardrails to enforce strict, safe behavior, they managed to tame their AI.</p>
+</div>
+<div class="paragraph">
+<p>When you interact with Lemonades today, you get a seamless, personalized experience.
+The AI is friendly, incredibly knowledgeable about citrus, and entirely immune to digital mischief—leaving the company to focus on what they do best: squeezing the perfect lemon.</p>
+</div>
+</div>
+</div>
+</div>
 <nav class="pagination">
   <span class="prev"><a href="index.html">NeMo Guardrails</a></span>
   <span class="next"><a href="section2.html">NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)</a></span>
