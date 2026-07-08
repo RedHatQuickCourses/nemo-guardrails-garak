@@ -110,3 +110,5 @@ dist
 # Ruby / Bundler (used by PDF generation)
 .bundle/
 Gemfile.lock
+
+ .DS_Store
