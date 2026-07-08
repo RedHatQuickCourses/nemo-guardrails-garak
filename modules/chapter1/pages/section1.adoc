@@ -70,7 +70,7 @@ They completely overhauled their AI pipeline using two industry-leading tools:
 They used Garak to relentlessly red-team their models.
 Garak systematically bombarded Lemonade Stand with thousands of known prompt injections, hallucination triggers, and data-leakage attempts.
 This allowed the Lemonades engineering team to map exactly where their AI was weak and patch the vulnerabilities before the public ever saw them.
-* *S*taying on Track with NeMo Guardrails*: To control the AI's behavior in real-time, Lemonades implemented *NVIDIA NeMo Guardrails*.
+* *Staying on Track with NeMo Guardrails*: To control the AI's behavior in real-time, Lemonades implemented *NVIDIA NeMo Guardrails*.
 They built strict operational boundaries around Lemonade Stand:
 ** *Topical Guardrails*: If a user asks Lemonade Stand to write an essay on history or write software code, the guardrail gently pivots the conversation: "I'm an expert in citrus, not software! How about a refreshing classic lemonade instead?"
 ** *Safety Guardrails*: NeMo prevents the bot from offering unauthorized discounts or spewing toxic language, no matter how aggressively the user prompts it.

@@ -16,17 +16,19 @@ image::openshift_login.png[]
 +
 image::openshift_ai_operator.png[]
 
-. Create DataScience cluster with default values.
+. Create Data Science cluster with default values.
 
 . Ensure trustyAI is in Managed state.
+.. Select the `default-dsc` resource from `Data Science Cluster` tab.
 +
 image::openshift_ai_operator-1.png[]
+.. Switch the tab to `YAML`.
 +
 image::openshift_ai_operator-2.png[]
 
 === LLMs
 
-. You will use models from MaaS (Model-as-a-Service) by RHDP.
+. Use models from MaaS (Model-as-a-Service) by RHDP.
 .. In RHDP platform, click `Model-as-a-Service (MaaS)`.
 +
 image::maas.png[]
@@ -39,7 +41,7 @@ image::maas-2.png[]
 .. Click `Models` or Select `Models` from the menu to subscribe the models.
 +
 image::maas-3.png[]
-... Search the models (`microsoft-phi-4`, `granite-4-0-h-tiny-cpu` and `llama-scout-17b`) and subsribe them.
+... Search the models (`microsoft-phi-4`, `granite-4-0-h-tiny-cpu` and `llama-scout-17b`) and subscribe them.
 +
 image::maas-4.png[]
 ... Create API key.
@@ -106,16 +108,16 @@ README.md  configmap.yaml  nemo.yaml  secret.yaml
 +
 [tabs]
 ====
-configmap.yaml File Highlights::
+Highlights::
 +
 .. The environment variables related to LLM from the previous export command are used in this file.
 .. Notice there is no input or output rails configured. This is basic chat endpoints without guardrails.
 .. There is an instructions section in which few rule based instructions are added.
 .. When you test this configuration, you will be able to see these rules are applied as per the prompt content or message.
 
-configmap.yaml File Content::
+Content::
 +
-[source,yaml,role=execute]
+[source,yaml,role=execute,subs="attributes,quotes"]
 ----
 apiVersion: v1
 kind: ConfigMap
@@ -167,26 +169,247 @@ data:
 ----
 ====
 
+. Review the `secret.yaml` file.
++
+[tabs]
+====
+Highlights::
++
+.. Create an `Opaque` secret with literal values in OpenShift.
+.. The environment variables related to LLM from the previous export command are used in this file.
+.. You can also create the secret using the command line.
+
+Content::
++
+[source,yaml,role=execute,subs="attributes,quotes"]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lemonade-secret
+type: Opaque
+stringData:
+  api-base: *"${LLM_API_BASE}"*
+  model-name: *"${LLM_MODEL_NAME}"*
+  api-key: *"${LLM_API_KEY}"*
+----
+====
+
+. Review the `nemo.yaml` file.
++
+[tabs]
+====
+Highlights::
++
+.. NeMo configuration `lemonade-config` `configMaps` which was created before is mentioned under `nemoConfigs` in this `NemoGuardrails` resource.
+.. Secret is referred to in this resource.
+
+Content::
++
+[source,yaml,role=execute,subs="attributes,quotes"]
+----
+apiVersion: trustyai.opendatahub.io/v1alpha1
+kind: NemoGuardrails
+metadata:
+  name: lemonade
+spec:
+  nemoConfigs:
+    - name: lemonade-stand
+      default: true
+      *configMaps*:
+        - *lemonade-config*
+  env:
+    - name: LLM_API_BASE
+      valueFrom:
+        secretKeyRef:
+          name: *lemonade-secret*
+          key: api-base
+    - name: LLM_MODEL_NAME
+      valueFrom:
+        secretKeyRef:
+          name: *lemonade-secret*
+          key: model-name
+    - name: LLM_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: *lemonade-secret*
+          key: api-key
+----
+====
+
+. Now, you have all configuration files.
+Deploy with envsubst command.
++
+[source,bash,role=execute]
+----
+cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message
+envsubst < secret.yaml | oc apply -f -
+envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | oc apply -f -
+oc apply -f nemo.yaml
+----
++
+NOTE: Envsubst is a lightweight command-line utility used for environment variable substitution in configuration files, shell scripts, and DevOps automation workflows across Linux systems.
+
 === Testing
 
-.
+. Get the route URL.
 +
 [source,bash,role=execute]
 ----
-
+NEMO_ROUTE=$(oc get route lemonade -o jsonpath='{.spec.host}')
+echo "NeMo Guardrails URL: https://$NEMO_ROUTE"
 ----
 
-.
+. The NeMo Guardrails service provides two main API endpoints for different use cases:
+
+.. */v1/guardrail/checks*: Use this endpoint to validate messages against configured guardrails without generating an LLM response.
+It helps to test guardrail configurations, validate content before sending it to an LLM, or implement custom validation workflows.
+For RAG and agentic workflows, you can send the retrieval or tool payloads to the /v1/guardrail/checks endpoint for validation.
+
+.. */v1/chat/completions*: Use this endpoint to generate LLM responses with guardrails applied to both input and output.
+The /v1/chat/completions endpoint processes user messages through input rails, generates an LLM response, and validates the response through output rails before returning it to the user.
+
+. Test with a basic lemon question.
+This will work as you are asking about the lemons.
 +
-[source,bash,role=execute]
+[source,bash,role=execute,subs="attributes,quotes"]
 ----
-
+curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",*"content":"What are the health benefits of lemons?"*}]
+  }' | jq
 ----
-
-
-.
 +
-[source,bash,role=execute]
+[source,bash,subs="attributes,quotes"]
+----
+{
+  "id": "chatcmpl-9348e42d-8f09-4736-a9c2-d2124d3e8ceb",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        *"content"*: *"Lemons are rich in vitamin C, which is important for a healthy immune system and skin. They contain flavonoids, compounds that act as antioxidants to help protect cells from damage. Lemons also have a high content of citric acid and limonoids, which may aid in digestion and have been studied for their potential in cancer prevention. Additionally, they can support heart health due to their role in reducing cholesterol levels, calcium buildup, and blood pressure. The high potassium content in lemons can also benefit heart function and help maintain normal blood pressure. Lastly, the fiber in lemons can aid in digestion and promote gastrointestinal health."*,
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782145838,
+  "model": "microsoft-phi-4",
+  "object": "chat.completion",
+  "guardrails": {
+    "config_id": "lemonade-stand"
+  }
+}
 ----
 
+. If you check with /v1/guardrail/checks endpoint then you notice that rails_status is blank and no data in guardrails_data.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+curl -s -X POST "https://$NEMO_ROUTE/v1/guardrail/checks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",*"content":"What are the health benefits of lemons?"*}]
+  }' | jq
+----
++
+[source,bash,subs="attributes,quotes"]
+----
+{
+  *"status"*: *"success"*,
+  *"rails_status"*: {},
+  "messages": [
+    {
+      "index": 0,
+      "role": "user",
+      "rails": {}
+    }
+  ],
+  "guardrails_data": {
+    "log": {
+      *"activated_rails"*: [],
+      "stats": {
+        "input_rails_duration": null,
+        "dialog_rails_duration": null,
+        "generation_rails_duration": null,
+        "output_rails_duration": null,
+        "total_duration": 0.0066564083099365234,
+        "llm_calls_duration": 0,
+        "llm_calls_count": 0,
+        "llm_calls_total_prompt_tokens": 0,
+        "llm_calls_total_completion_tokens": 0,
+        "llm_calls_total_tokens": 0
+      }
+    }
+  }
+}
+----
+
+. Now test the off topic question.
+This will not work as it is not related to lemons.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",*"content":"Tell me about oranges"*}]
+  }' | jq
+----
++
+[source,bash,subs="attributes,quotes"]
+----
+{
+  "id": "chatcmpl-24e27cbf-fca7-4ae5-ad53-a52f8f7dbd09",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        *"content"*: *"I'm sorry, but I specialize exclusively in lemons and can only provide information directly related to lemons. If you have questions about lemons, like their cultivation, varieties, or uses, feel free to ask!"*,
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782145900,
+  "model": "microsoft-phi-4",
+  "object": "chat.completion",
+  "guardrails": {
+    "config_id": "lemonade-stand"
+  }
+}
+----
+
+. Let’s see what the streaming response looks like.
+Here you add a stream key with value as true to get the streaming response.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user","content":"Give me a recipe for lemonade"}],
+    *"stream"*: *true*
+  }'
+----
++
+[source,bash,subs="attributes,quotes"]
+----
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "Certa"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "i"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "nly"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145937, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "! To "}, "index": 0, "finish_reason": null}]}
+...
+...
+...
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "eel. E"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "n"}, "index": 0, "finish_reason": null}]}
+data: {"id": "chatcmpl-5235f039-f1b9-447b-a6b3-a0cc164b2b35", "object": "chat.completion.chunk", "created": 1782145939, "model": "microsoft-phi-4", "choices": [{"delta": {"content": "joy!"}, "index": 0, "finish_reason": null}]}
+data: [DONE]
 ----
