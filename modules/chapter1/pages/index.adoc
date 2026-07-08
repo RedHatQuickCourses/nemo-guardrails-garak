@@ -1,7 +1,6 @@
-= Chapter 1
+= NeMo Guardrails
 
-In this section, we cover... FIXME
+In this chapter, focus is on the following objectives:
 
-
-- Add or remove section entries in the `antora.yaml` file as needed.
-- Ensure you create or delete the corresponding directory for the chapter accordingly.
+* Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls
+* Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails

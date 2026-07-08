@@ -8,6 +8,3 @@
 ** xref:section7.adoc[]
 ** xref:section8.adoc[]
 ** xref:section9.adoc[]
-** xref:tabs-demo.adoc[]
-** xref:collapsible-demo.adoc[]
-** xref:images.adoc[Images]
