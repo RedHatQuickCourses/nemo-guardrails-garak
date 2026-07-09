@@ -248,6 +248,12 @@ envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | o
 oc apply -f nemo.yaml
 ----
 +
+```
+secret/lemonade-secret created
+configmap/lemonade-config created
+nemoguardrails.trustyai.opendatahub.io/lemonade created
+```
++
 NOTE: Envsubst is a lightweight command-line utility used for environment variable substitution in configuration files, shell scripts, and DevOps automation workflows across Linux systems.
 
 === Testing

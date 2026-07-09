@@ -1,5 +1,23 @@
 = NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection
 
+== Hands-on lab
+
+=== Deployment
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
+=== Testing
+
 This page demonstrates https://github.com/asciidoctor/asciidoctor-tabs[`@asciidoctor/tabs`^] in Antora: use tabs for multiple languages, or to separate exercise instructions from solutions.
 
 == Language tabs

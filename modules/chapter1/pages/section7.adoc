@@ -1,1 +1,19 @@
 = NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions
+
+== Hands-on lab
+
+=== Deployment
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
+=== Testing

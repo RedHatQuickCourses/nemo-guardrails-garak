@@ -1,5 +1,23 @@
 = Industry-specific self-check guardrail examples
 
+== Hands-on lab
+
+=== Deployment
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+
+----
+
+=== Testing
+
 This page demonstrates https://docs.asciidoctor.org/asciidoc/latest/blocks/collapsible/[collapsible example blocks^] in Antora: use them for optional *Hints*, *Deep dives*, or other detail that should not block the main lesson flow.
 
 No extra Antora extension is required; `[%collapsible]` is built into Asciidoctor.
