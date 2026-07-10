@@ -11,6 +11,20 @@
 ----
 
 +
+[tabs]
+====
+Highlights::
++
+
+Content::
++
+[source,yaml,role=execute,subs="attributes,quotes"]
+----
+
+----
+====
+
++
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
 

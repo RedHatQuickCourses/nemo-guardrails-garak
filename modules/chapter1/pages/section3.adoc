@@ -7,12 +7,14 @@ It is a built-in, low-latency utility used to block, filter, or validate specifi
 
 === Deployment
 
-. Review the updated ConfigMap (configmap.yaml) file which includes regex detection.
+. Change the directory to `system-message-plus-regex`.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
 cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex
 ----
+
+. Review the updated ConfigMap (configmap.yaml) file which includes regex detection.
 +
 [tabs]
 ====
