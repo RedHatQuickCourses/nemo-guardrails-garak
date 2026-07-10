@@ -14,7 +14,7 @@ PII (Personally Identifiable Information) detection in NeMo Guardrails on Red Ha
 cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex-plus-pii
 ----
 
-. Review the updated ConfigMap (configmap.yaml) file which includes regex plus PII detection.
+. Review the updated ConfigMap (`configmap.yaml`) file which includes regex plus PII detection.
 +
 [tabs]
 ====

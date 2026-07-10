@@ -13,7 +13,7 @@ NeMo Guardrails uses built-in, pre-tested flow controls (like self_check_input a
 
 === Deployment
 
-. Change the directory to `system-message-plus-regex-plus-pii`.
+. Change the directory to `system-message-plus-regex-plus-pii-plus-prompt`.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
