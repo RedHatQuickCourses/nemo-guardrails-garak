@@ -118,7 +118,7 @@ data:
 ----
 ====
 
-. The secret.yaml and nemo.yaml files remain unchanged.
+. The `secret.yaml` and `nemo.yaml` files remain unchanged.
 
 . Set environment variables with your LLM credentials.
 +

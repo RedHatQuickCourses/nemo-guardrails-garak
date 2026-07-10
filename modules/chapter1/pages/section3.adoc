@@ -14,7 +14,7 @@ It is a built-in, low-latency utility used to block, filter, or validate specifi
 cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex
 ----
 
-. Review the updated ConfigMap (configmap.yaml) file which includes regex detection.
+. Review the updated ConfigMap (`configmap.yaml`) file which includes regex detection.
 +
 [tabs]
 ====
@@ -82,7 +82,7 @@ data:
 ----
 ====
 
-. The secret.yaml and nemo.yaml files remain unchanged.
+. The `secret.yaml` and `nemo.yaml` files remain unchanged.
 
 . Set environment variables with your LLM credentials.
 +
