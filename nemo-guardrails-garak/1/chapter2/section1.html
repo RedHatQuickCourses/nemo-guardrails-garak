@@ -104,6 +104,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="section2.html">Deploy EvalHub with the TrustyAI Operator</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="section3.html">Safety and Security features in Red Hat AI 3.4</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -148,7 +151,76 @@
 </aside>
 <article class="doc">
 <h1 class="page">Evaluating AI Systems</h1>
-
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>EvalHub is an open-source platform designed to build scalable, reproducible AI evaluation infrastructure and turn AI evaluation into a rigorous engineering practice. Available under the Apache 2.0 license, it can be deployed on Kubernetes via the TrustyAI operator and is integrated as part of the TrustyAI stack for Red Hat OpenShift AI. Rather than treating model performance as a subjective "black box," EvalHub allows developers to systematically measure and close the gap between current model performance and targeted thresholds.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_core_of_evalhub"><a class="anchor" href="#_core_of_evalhub"></a>Core of EvalHub</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The foundational methodology behind EvalHub is Evaluation-Driven Development (EDD), an evolution of Test-Driven Development (TDD) for probabilistic AI systems that replaces traditional pass/fail tests with multidimensional gradient scoring.
+EvalHub operationalizes this methodology through several core concepts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Evaluation Collections</strong>: EvalHub defines evaluation criteria upfront through named, versioned sets of benchmarks with explicit weighting.
+A collection acts as a machine-readable artifact that encodes a team&#8217;s measurement strategy—including which dimensions matter and how they are weighted—before a single evaluation is run.</p>
+</li>
+<li>
+<p><strong>Sliced Evaluation</strong>: Instead of relying on a single aggregate score that might hide critical failures, EvalHub emphasizes breaking down evaluation results into constituent dimensions (e.g., by product category, medical specialty, or language).
+Each "slice" acts as an independent optimization target with its own specific threshold, score, and trend over time.</p>
+</li>
+<li>
+<p><strong>Automatic Experiment Tracking</strong>: EvalHub automatically manages the operational overhead of tracking evaluations.
+It writes full experiment records—including dimensional scores, model versions, collection versions, environment variables, and hardware tags—directly to MLflow, ensuring deep reproducibility and easy querying.</p>
+</li>
+<li>
+<p><strong>Unified API from Notebook to Cluster</strong>: Developers can submit evaluation runs via the Python SDK (evalhub.client) locally or via the CLI (evalhub.cli) in CI/CD pipelines. The system uses the exact same API to run production Kubernetes-native jobs with Kueue-managed scheduling.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_garaks_role_in_evalhub_architecture"><a class="anchor" href="#_garaks_role_in_evalhub_architecture"></a>Garak&#8217;s Role in EvalHub Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>EvalHub operates as an orchestration layer that routes evaluation tasks to specialized backend frameworks, referred to as providers.</p>
+</div>
+<div class="paragraph">
+<p>When a user submits a single POST request containing a collection ID and a model endpoint, EvalHub&#8217;s architecture automatically expands that collection into individual benchmarks grouped by provider and routes each group to the appropriate backend in parallel.</p>
+</div>
+<div class="paragraph">
+<p>Garak serves as one of EvalHub&#8217;s default built-in providers.
+Within the architecture, Garak is explicitly responsible for handling the evaluation dimensions related to safety and automated risk assessment.
+Specifically, Garak runs benchmarks to test for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red-teaming</p>
+</li>
+<li>
+<p>Toxicity</p>
+</li>
+<li>
+<p>Bias</p>
+</li>
+<li>
+<p>Safety adversarial probes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Once Garak (along with any other parallel providers) completes its designated tests, EvalHub collects the results, applies the pre-defined collection weights to generate a dimensional score breakdown, and records the comprehensive evaluation data to MLflow.</p>
+</div>
+</div>
+</div>
 <nav class="pagination">
   <span class="prev"><a href="index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a></span>
   <span class="next"><a href="section2.html">Deploy EvalHub with the TrustyAI Operator</a></span>
