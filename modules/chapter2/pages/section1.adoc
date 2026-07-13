@@ -1,1 +1,33 @@
 = Evaluating AI Systems
+
+EvalHub is an open-source platform designed to build scalable, reproducible AI evaluation infrastructure and turn AI evaluation into a rigorous engineering practice. Available under the Apache 2.0 license, it can be deployed on Kubernetes via the TrustyAI operator and is integrated as part of the TrustyAI stack for Red Hat OpenShift AI. Rather than treating model performance as a subjective "black box," EvalHub allows developers to systematically measure and close the gap between current model performance and targeted thresholds.
+
+== Core of EvalHub
+
+The foundational methodology behind EvalHub is Evaluation-Driven Development (EDD), an evolution of Test-Driven Development (TDD) for probabilistic AI systems that replaces traditional pass/fail tests with multidimensional gradient scoring.
+EvalHub operationalizes this methodology through several core concepts:
+
+* *Evaluation Collections*: EvalHub defines evaluation criteria upfront through named, versioned sets of benchmarks with explicit weighting.
+A collection acts as a machine-readable artifact that encodes a team's measurement strategy—including which dimensions matter and how they are weighted—before a single evaluation is run.
+* *Sliced Evaluation*: Instead of relying on a single aggregate score that might hide critical failures, EvalHub emphasizes breaking down evaluation results into constituent dimensions (e.g., by product category, medical specialty, or language).
+Each "slice" acts as an independent optimization target with its own specific threshold, score, and trend over time.
+* *Automatic Experiment Tracking*: EvalHub automatically manages the operational overhead of tracking evaluations.
+It writes full experiment records—including dimensional scores, model versions, collection versions, environment variables, and hardware tags—directly to MLflow, ensuring deep reproducibility and easy querying.
+* *Unified API from Notebook to Cluster*: Developers can submit evaluation runs via the Python SDK (evalhub.client) locally or via the CLI (evalhub.cli) in CI/CD pipelines. The system uses the exact same API to run production Kubernetes-native jobs with Kueue-managed scheduling.
+
+== Garak's Role in EvalHub Architecture
+
+EvalHub operates as an orchestration layer that routes evaluation tasks to specialized backend frameworks, referred to as providers.
+
+When a user submits a single POST request containing a collection ID and a model endpoint, EvalHub's architecture automatically expands that collection into individual benchmarks grouped by provider and routes each group to the appropriate backend in parallel.
+
+Garak serves as one of EvalHub's default built-in providers.
+Within the architecture, Garak is explicitly responsible for handling the evaluation dimensions related to safety and automated risk assessment.
+Specifically, Garak runs benchmarks to test for:
+
+* Red-teaming
+* Toxicity
+* Bias
+* Safety adversarial probes
+
+Once Garak (along with any other parallel providers) completes its designated tests, EvalHub collects the results, applies the pre-defined collection weights to generate a dimensional score breakdown, and records the comprehensive evaluation data to MLflow.
