@@ -1,32 +1,32 @@
-= Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
+= Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub
 :navtitle: Home
 
 Duration: pass:[<span class="course-total-duration" aria-live="polite">…</span>]
 
 == Introduction
 
-Course Title: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
+Course Title: Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub
 
 Description:
-This course covers the hands-on lab on the NVIDIA NeMo Guardrails and Garak (Generative AI Red-teaming & Assessment Kit) Evaluation Framework.
-This hands-on lab focuses on how to use NeMo Guardrails and Garak Evaluation Framework features in the Red Hat OpenShift AI (RHOAI) environment.
+This course features a hands-on lab covering NVIDIA NeMo Guardrails and Garak (Generative AI Red-teaming & Assessment Kit) Evaluation Framework.
+This hands-on lab focuses on how to use NeMo Guardrails and Garak Evaluation Framework features within the Red Hat OpenShift AI (RHOAI) environment.
 
 == Objectives
 
 On completing this course, you should be able to:
 
-* Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls
-* Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails
-* Test model security against known attacks using tools like Nvidia Garak
+* Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls.
+* Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails.
+* Test model security against known attacks using tools like Nvidia Garak.
 
 == Prerequisites
 
 This course assumes that you have the following prior experience:
 
-* A basic understanding of machine learning principles and workflows is required
-* A basic understanding of Generative AI and Large Language Models (LLMs) is required
-* Basic experience with Git is required
-* Experience with containers and Red Hat OpenShift is recommended, or completion of the Red Hat OpenShift Developer II: Building and Deploying Cloud-native Applications (DO288) course
+* A basic understanding of machine learning principles and workflows is required.
+* A basic understanding of Generative AI and Large Language Models (LLMs) is required.
+* Basic experience with Git is required.
+* Experience with containers and Red Hat OpenShift is recommended, or completion of the Red Hat OpenShift Developer II: Building and Deploying Cloud-native Applications (DO288) course.
 
 == Contributors
 

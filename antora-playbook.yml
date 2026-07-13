@@ -1,5 +1,5 @@
 site:
-  title: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
+  title: Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub
   start_page: nemo-guardrails-garak::index.adoc
 
 content:

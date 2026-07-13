@@ -1,8 +1,8 @@
 schemaVersion: 2.1.0
 metadata:
   name: nemo-guardrails-garak-dev
-  displayName: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
-  description: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub Quick Course published using Antora
+  displayName: Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub
+  description: Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub Quick Course published using Antora
   icon: https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg
   tags:
     - Node.js

@@ -1,6 +1,6 @@
 = Industry-specific self-check guardrail examples
 
-Review example self-check guardrail prompts tailored for specific industries.
+Review example of self-check guardrail prompts tailored for specific industries.
 Use these examples as starting points to create custom guardrails that enforce industry-specific policies and compliance requirements.
 
 To optimize the speed and efficacy of your self-check evaluations, carefully select the judge model in NeMo Guardrails.
