@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploy EvalHub with the TrustyAI Operator :: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</title>
+    <link rel="prev" href="section1.html">
+    <link rel="next" href="section3.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nemo-guardrails-garak" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index-lab-demo.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../chapter1/index.html">NeMo Guardrails</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section1.html">What are NeMo Guardrails?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section2.html">NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section3.html">Lemonade Stand with Regex Detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section4.html">Lemonade Stand with Regex Detection and PII</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section5.html">Lemonade Stand with LLM-as-Judge + Regex Detection + PII</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section6.html">Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section7.html">Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section8.html">Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter1/section9.html">Industry-specific self-check guardrail examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="section1.html">Evaluating AI Systems</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="section2.html">Deploy EvalHub with the TrustyAI Operator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="section3.html">Safety and Security features in Red Hat AI 3.4</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub</a></li>
+    <li><a href="index.html">GARAK (Generative AI Red-teaming &amp; Assessment Kit)</a></li>
+    <li><a href="section2.html">Deploy EvalHub with the TrustyAI Operator</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Deploy EvalHub with the TrustyAI Operator</h1>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>You have cluster administrator privileges for your OpenShift cluster.</p>
+</li>
+<li>
+<p>You have installed the OpenShift CLI (<code>oc</code>) version 4.12 or later.</p>
+</li>
+<li>
+<p>You have the TrustyAI component in your OpenShift AI <code>DataScienceCluster</code> set to <code>Managed</code>.</p>
+</li>
+<li>
+<p>You have configured KServe to use <code>RawDeployment</code> mode.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mlflow_deployment"><a class="anchor" href="#_mlflow_deployment"></a>MLflow Deployment</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create MLflow deployment <code>mlflow.yaml</code> configuration file in <code>lemonades</code> namespace.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: <strong>lemonades</strong>
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlflow-pvc
+  namespace: <strong>lemonades</strong>
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow
+  namespace: <strong>lemonades</strong>
+spec:
+  selector:
+    app: mlflow
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  namespace: <strong>lemonades</strong>
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+      - name: mlflow
+        image: python:3.10-slim
+        command:
+        - /bin/bash
+        - -c
+        - |
+          # 1. Create and activate a venv in /tmp (which is always writable)
+          python -m venv /tmp/venv
+          source /tmp/venv/bin/activate
+
+          # 2. Install MLflow safely into the venv
+          pip install mlflow
+
+          # 3. Start the MLflow server
+          mlflow server \
+            --backend-store-uri sqlite:////mlflow/mlflow.db \
+            --default-artifact-root /mlflow/artifacts \
+            --host 0.0.0.0 \
+            --port 5001
+        ports:
+        - containerPort: 5001
+        volumeMounts:
+        - name: mlflow-storage
+          mountPath: /mlflow
+      volumes:
+      - name: mlflow-storage
+        persistentVolumeClaim:
+          claimName: mlflow-pvc</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Deploy the resources to your cluster by running the following command.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f mlflow.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">namespace/lemonades configured
+persistentvolumeclaim/mlflow-pvc created
+service/mlflow created
+deployment.apps/mlflow created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify the MLflow is deployed.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc logs -l app=mlflow -n lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">2026/07/13 09:04:51 INFO:     Waiting for application startup.
+2026/07/13 09:04:51 INFO:     Application startup complete.
+2026/07/13 09:04:51 INFO:     Started server process [116]
+2026/07/13 09:04:51 INFO:     Waiting for application startup.
+2026/07/13 09:04:51 INFO:     Application startup complete.
+2026/07/13 09:04:51 INFO:     Started server process [119]
+2026/07/13 09:04:51 INFO:     Waiting for application startup.
+2026/07/13 09:04:51 INFO:     Application startup complete.
+2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered online_scoring_scheduler periodic task (runs every 1 minute)
+2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered trace_archival_scheduler periodic task (polls every 1 minute and no-ops when trace archival is disabled or unconfigured)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It will take some time to deploy.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_postgresql_deployment"><a class="anchor" href="#_postgresql_deployment"></a>Postgresql Deployment</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a postgres database <code>postgres.yaml</code> for EvalHub.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: <strong>lemonades</strong>
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: <strong>lemonades</strong>
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  namespace: <strong>lemonades</strong>
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  namespace: <strong>lemonades</strong>
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: "evalhub"
+        - name: POSTGRES_PASSWORD
+          value: "evalhub123"
+        - name: POSTGRES_DB
+          value: "evalhub"
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-pvc</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the configuration.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f postgres.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">namespace/lemonades unchanged
+persistentvolumeclaim/postgres-pvc created
+service/postgresql created
+deployment.apps/postgresql created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify the database is running and connection is successful.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc exec -it deployment/postgresql -n lemonades -- psql -U evalhub -d evalhub -c "\conninfo"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">You are connected to database "evalhub" as user "evalhub" via socket in "/var/run/postgresql" at port "5432".</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_evalhub_deployment"><a class="anchor" href="#_evalhub_deployment"></a>EvalHub Deployment</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Ensure you have configured KServe to use RawDeployment mode.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get configmap inferenceservice-config -n redhat-ods-applications -o jsonpath='{.data.deploy}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">{
+  "defaultDeploymentMode": "RawDeployment"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a Secret <code>evalhub-db-credentials.yaml</code> containing the <code>PostgreSQL</code> connection string.
+The Secret must contain a <code>db-url</code> key with a valid <code>PostgreSQL</code> connection URI.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: evalhub-db-credentials
+  namespace: lemonades
+type: Opaque
+stringData:
+  db-url: "postgres://evalhub:evalhub123@postgresql.lemonades.svc.cluster.local:5432/evalhub"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the created <code>evalhub-db-credentials.yaml</code>.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f evalhub-db-credentials.yaml -n lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">secret/evalhub-db-credentials created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a generic secret with a model api key for your MaaS model.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create secret generic model-api-key --from-literal=api-key="<YOUR AIP KEY>" -n lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">secret/model-api-key created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create an <code>EvalHub</code> custom resource to deploy the service, such as <code>evalhub_cr.yaml</code>.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: trustyai.opendatahub.io/v1alpha1
+kind: EvalHub
+metadata:
+  name: evalhub
+  namespace: lemonades
+spec:
+  replicas: 1
+  database:
+    type: postgresql
+    secret: evalhub-db-credentials
+  providers:
+    - garak
+  collections:
+    - safety-and-fairness-v1
+  env:
+    - name: MLFLOW_TRACKING_URI
+      value: "http://mlflow.lemonades.svc.cluster.local:5001"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Apply the custom resource to the cluster.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f evalhub_cr.yaml -n lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">evalhub.trustyai.opendatahub.io/evalhub created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Confirm that the evalhub pod is running.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -l app=eval-hub -n lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">NAME                       READY   STATUS    RESTARTS   AGE
+evalhub-7958c65874-bfqsr   1/1     Running   0          62s</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Query the health endpoint.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export EVALHUB_URL=https://$(oc get routes evalhub -o jsonpath='{.spec.host}' -n lemonades)
+curl -s $EVALHUB_URL/api/v1/health | jq .</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">{
+  "status": "healthy",
+  "timestamp": "2026-07-13T09:22:29.923612499Z",
+  "build": "0.3.0"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Install the EvalHub SDK with CLI support.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install python3-pip -y
+pip install "eval-hub-sdk[cli]"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Configure the CLI to connect to your EvalHub server.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub config set base_url https://$(oc get routes evalhub -o jsonpath='{.spec.host}' -n lemonades)
+evalhub config set tenant lemonades</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Set 'base_url' in profile 'default'
+Set 'tenant' in profile 'default'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Grant evaluation permissions by adding rolebindings.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc apply -f - &lt;&lt;EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: evalhub-evaluator
+  namespace: lemonades
+rules:
+  - apiGroups: [trustyai.opendatahub.io]
+    resources: [evaluations, collections, providers]
+    verbs: [get, list, create, update, delete]
+  - apiGroups: [mlflow.kubeflow.org]
+    resources: [experiments]
+    verbs: [create, get]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: evalhub-evaluator-binding
+  namespace: lemonades
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: evalhub-evaluator
+subjects:
+  - kind: ServiceAccount
+    name: evalhub-service
+    namespace: lemonades
+EOF</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">role.rbac.authorization.k8s.io/evalhub-evaluator created
+rolebinding.rbac.authorization.k8s.io/evalhub-evaluator-binding created</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set your authentication token.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export TOKEN=$(oc create token evalhub-service -n lemonades)
+evalhub config set token $TOKEN</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Set 'token' in profile 'default'</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify the CLI can connect to EvalHub.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub health</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">EvalHub service: healthy (170ms)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>List available evaluation providers.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub providers list</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">┏━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ ID    ┃ NAME  ┃ DESCRIPTION                                         ┃ BENCHMARKS ┃
+┡━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ garak │ Garak │ LLM vulnerability scanner and red-teaming framework │ 8          │
+└───────┴───────┴─────────────────────────────────────────────────────┴────────────┘</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>To get a garak with its benchmarks using the REST API, run the following command.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl -s -H "Authorization: Bearer $TOKEN" -H "X-Tenant: lemonades" $EVALHUB_URL/api/v1/evaluations/providers/garak | jq .</code></pre>
+</div>
+</div>
+<details>
+<summary class="title">Garak benchmarks</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">{
+  "resource": {
+    "id": "garak",
+    "created_at": "2026-07-13T09:20:13.296227Z",
+    "updated_at": "2026-07-13T09:20:13.296227Z",
+    "owner": "system"
+  },
+  "name": "Garak",
+  "description": "LLM vulnerability scanner and red-teaming framework",
+  "title": "Garak",
+  "benchmarks": [
+    {
+      "id": "owasp_llm_top10",
+      "name": "OWASP LLM top 10 risk scan",
+      "description": "Tests against the top 10 security risks specific to LLM applications.",
+      "category": "security",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "security",
+        "owasp",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "avid",
+      "name": "Full AI vulnerability scan",
+      "description": "Comprehensive red-team scan across all AVID taxonomy categories.",
+      "category": "security",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "security",
+        "avid",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "avid_security",
+      "name": "AI security vulnerability scan",
+      "description": "Probes for security-specific vulnerabilities from the AVID taxonomy.",
+      "category": "security",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "security",
+        "avid",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "avid_ethics",
+      "name": "AI ethics &amp; bias scan",
+      "description": "Probes for ethical concerns including bias and harmful content.",
+      "category": "safety",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "safety",
+        "ethics",
+        "avid",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "avid_performance",
+      "name": "AI performance degradation scan",
+      "description": "Tests for performance-related issues from the AVID taxonomy.",
+      "category": "performance",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "performance",
+        "avid",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "quality",
+      "name": "Toxic &amp; harmful content scan",
+      "description": "Scans for violence, profanity, toxicity, hate speech, and integrity issues.",
+      "category": "safety",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "safety",
+        "quality",
+        "toxicity",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "cwe",
+      "name": "Software weakness exploitation scan",
+      "description": "Tests for Common Weakness Enumeration software security weaknesses.",
+      "category": "security",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "security",
+        "cwe",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    },
+    {
+      "id": "quick",
+      "name": "Quick security smoke test",
+      "description": "Single-probe rapid scan for fast validation.",
+      "category": "security",
+      "metrics": [
+        "attack_success_rate"
+      ],
+      "num_few_shot": 0,
+      "dataset_size": 0,
+      "tags": [
+        "security",
+        "quick",
+        "red_team"
+      ],
+      "primary_score": {
+        "metric": "attack_success_rate",
+        "lower_is_better": true
+      },
+      "pass_criteria": {
+        "threshold": 0.3
+      }
+    }
+  ],
+  "runtime": {
+    "k8s": {
+      "Image": "registry.redhat.io/rhoai/odh-trustyai-garak-lls-provider-dsp-rhel9@sha256:b7539c9131326a3f07b4b40b2c791024b313f26076ae4c29937f1526e2495511",
+      "Entrypoint": [
+        "python",
+        "-m",
+        "llama_stack_provider_trustyai_garak.evalhub"
+      ],
+      "CPURequest": "500m",
+      "MemoryRequest": "512Mi",
+      "CPULimit": "2000m",
+      "MemoryLimit": "4Gi",
+      "Env": [
+        {
+          "Name": "VAR_NAME",
+          "Value": "VALUE"
+        }
+      ]
+    },
+    "local": {
+      "command": "true"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</details>
+</li>
+<li>
+<p>Get more detailed information about a specific provider.
+For example, for details about garak, run.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub providers describe garak</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Provider: Garak
+ID:       garak
+Description: LLM vulnerability scanner and red-teaming framework
+
+Benchmarks (8):
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+┃ ID               ┃ NAME                                ┃ CATEGORY    ┃ METRICS             ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+│ owasp_llm_top10  │ OWASP LLM top 10 risk scan          │ security    │ attack_success_rate │
+│ avid             │ Full AI vulnerability scan          │ security    │ attack_success_rate │
+│ avid_security    │ AI security vulnerability scan      │ security    │ attack_success_rate │
+│ avid_ethics      │ AI ethics &amp; bias scan               │ safety      │ attack_success_rate │
+│ avid_performance │ AI performance degradation scan     │ performance │ attack_success_rate │
+│ quality          │ Toxic &amp; harmful content scan        │ safety      │ attack_success_rate │
+│ cwe              │ Software weakness exploitation scan │ security    │ attack_success_rate │
+│ quick            │ Quick security smoke test           │ security    │ attack_success_rate │
+└──────────────────┴─────────────────────────────────────┴─────────────┴─────────────────────┘</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create <code>garak-eval.yaml</code> the job file.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">name: garak-security-eval
+model:
+  url: https://&lt;maas URL&gt;
+  name: llama-scout-17b
+  auth:
+    secret_ref: model-api-key
+benchmarks:
+  - id: avid_ethics
+    provider_id: garak</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Submit a job by specifying the model endpoint and one or more benchmarks.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval run --config garak-eval.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Job submitted: 36e97f18-8ea2-4219-b66a-99654dd84f0b</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Confirm the job is registered and check its status.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval status</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ID                                   ┃ NAME                ┃ STATE   ┃ PROVIDER ┃ BENCHMARKS ┃ CREATED                          ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ 36e97f18-8ea2-4219-b66a-99654dd84f0b │ garak-security-eval │ running │ garak    │ 1          │ 2026-07-13 09:54:36.404185+00:00 │
+└──────────────────────────────────────┴─────────────────────┴─────────┴──────────┴────────────┴──────────────────────────────────┘</code></pre>
+</div>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval status 36e97f18-8ea2-4219-b66a-99654dd84f0b</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Job:     36e97f18-8ea2-4219-b66a-99654dd84f0b
+Name:    garak-security-eval
+State:   running
+Model:   llama-scout-17b (&lt;MaaS URL&gt;)
+Created: 2026-07-13 09:54:36.404185+00:00
+
+Benchmarks (1):
+  avid_ethics (garak): running
+
+Message: Evaluation job is running</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The time it takes for a Garak evaluation job to complete can range anywhere from 5 minutes to several hours, depending on how you configure it. This can lead to keep the running the RHDP evnironment for several hours which is not recommended. Ensure you have deleted the job before deleteing the lab environment.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Unfortunately, for this training there are no actual model evaluation results in the json format.
+Results may be added in future updates of this training.
+But in the next section, there is arcade demo on the GUI based evaluation for Garak.</p>
+</li>
+<li>
+<p>Cancel the evaluation job.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval cancel 36e97f18-8ea2-4219-b66a-99654dd84f0b</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Are you sure you want to cancel this job? [y/N]: y
+Job 36e97f18-8ea2-4219-b66a-99654dd84f0b cancelled.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete (permanently) the evaluation job.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>First check the status of the job.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval status</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ID                                   ┃ NAME                ┃ STATE     ┃ PROVIDER ┃ BENCHMARKS ┃ CREATED                          ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ 36e97f18-8ea2-4219-b66a-99654dd84f0b │ garak-security-eval │ cancelled │ garak    │ 1          │ 2026-07-13 09:54:36.404185+00:00 │
+└──────────────────────────────────────┴─────────────────────┴───────────┴──────────┴────────────┴──────────────────────────────────┘</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now, permanently delete the job.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">evalhub eval cancel 36e97f18-8ea2-4219-b66a-99654dd84f0b --hard-delete</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Are you sure you want to cancel this job? [y/N]: y
+Job 36e97f18-8ea2-4219-b66a-99654dd84f0b deleted.</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="section1.html">Evaluating AI Systems</a></span>
+  <span class="next"><a href="section3.html">Safety and Security features in Red Hat AI 3.4</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+  </body>
+</html>

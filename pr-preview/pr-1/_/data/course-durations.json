@@ -1,0 +1,86 @@
+{
+  "totalSeconds": 2313,
+  "pageCount": 16,
+  "pages": [
+    {
+      "module": "ROOT",
+      "page": "index.adoc",
+      "seconds": 68
+    },
+    {
+      "module": "LABENV",
+      "page": "index-lab-demo.adoc",
+      "seconds": 16
+    },
+    {
+      "module": "chapter1",
+      "page": "index.adoc",
+      "seconds": 11
+    },
+    {
+      "module": "chapter1",
+      "page": "section1.adoc",
+      "seconds": 299
+    },
+    {
+      "module": "chapter1",
+      "page": "section2.adoc",
+      "seconds": 287
+    },
+    {
+      "module": "chapter1",
+      "page": "section3.adoc",
+      "seconds": 128
+    },
+    {
+      "module": "chapter1",
+      "page": "section4.adoc",
+      "seconds": 171
+    },
+    {
+      "module": "chapter1",
+      "page": "section5.adoc",
+      "seconds": 232
+    },
+    {
+      "module": "chapter1",
+      "page": "section6.adoc",
+      "seconds": 270
+    },
+    {
+      "module": "chapter1",
+      "page": "section7.adoc",
+      "seconds": 305
+    },
+    {
+      "module": "chapter1",
+      "page": "section8.adoc",
+      "seconds": 148
+    },
+    {
+      "module": "chapter1",
+      "page": "section9.adoc",
+      "seconds": 86
+    },
+    {
+      "module": "chapter2",
+      "page": "index.adoc",
+      "seconds": 5
+    },
+    {
+      "module": "chapter2",
+      "page": "section1.adoc",
+      "seconds": 126
+    },
+    {
+      "module": "chapter2",
+      "page": "section2.adoc",
+      "seconds": 148
+    },
+    {
+      "module": "chapter2",
+      "page": "section3.adoc",
+      "seconds": 13
+    }
+  ]
+}
