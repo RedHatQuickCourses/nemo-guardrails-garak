@@ -11,8 +11,8 @@ From this section onwards, you will build the configmap for NeMo Guardrail. You 
 image::openshift_login.png[]
 
 . Install the Red Hat OpenShift AI operator with default values.
-.. Ensure channel is selected as stable-3.x
-.. Select 3.4.2 as version
+.. Ensure channel is selected as `stable-3.x`.
+.. Select `3.4.2` as version.
 +
 image::openshift_ai_operator.png[]
 
