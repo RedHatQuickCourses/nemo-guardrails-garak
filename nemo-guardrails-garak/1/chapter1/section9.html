@@ -148,116 +148,134 @@
 </aside>
 <article class="doc">
 <h1 class="page">Industry-specific self-check guardrail examples</h1>
-<div class="sect1">
-<h2 id="_hands_on_lab"><a class="anchor" href="#_hands_on_lab"></a>Hands-on lab</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_deployment"><a class="anchor" href="#_deployment"></a>Deployment</h3>
 <div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"></code></pre>
-</div>
+<p>Review example self-check guardrail prompts tailored for specific industries.
+Use these examples as starting points to create custom guardrails that enforce industry-specific policies and compliance requirements.</p>
 </div>
 <div class="paragraph">
-<p>+</p>
+<p>To optimize the speed and efficacy of your self-check evaluations, carefully select the judge model in NeMo Guardrails.
+The Red Hat AI Safety team currently recommends <a href="https://huggingface.co/Qwen/Qwen3-14B">Qwen/Qwen3-14B</a> as a starting point, as it provides a strong balance between guardrail accuracy and infrastructure costs.</p>
 </div>
-<div id="_tabs_1" class="openblock tabs is-loading">
-<div class="content">
-<div class="ulist tablist">
-<ul>
-<li id="_tabs_1_highlights" class="tab">
-<p>Highlights</p>
-</li>
-<li id="_tabs_1_content" class="tab">
-<p>Content</p>
-</li>
-</ul>
-</div>
-<div id="_tabs_1_highlights--panel" class="tabpanel" aria-labelledby="_tabs_1_highlights _tabs_1_content">
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_testing"><a class="anchor" href="#_testing"></a>Testing</h3>
-<div class="paragraph">
-<p>This page demonstrates <a href="https://docs.asciidoctor.org/asciidoc/latest/blocks/collapsible/" target="_blank" rel="noopener">collapsible example blocks</a> in Antora: use them for optional <strong>Hints</strong>, <strong>Deep dives</strong>, or other detail that should not block the main lesson flow.</p>
-</div>
-<div class="paragraph">
-<p>No extra Antora extension is required; <code>[%collapsible]</code> is built into Asciidoctor.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_hint_collapsed_by_default"><a class="anchor" href="#_hint_collapsed_by_default"></a>Hint (collapsed by default)</h2>
-<div class="sectionbody">
-<details>
-<summary class="title">Hint</summary>
-<div class="content">
-<div class="paragraph">
-<p>Try the exercise first; open this only if you are stuck.</p>
-</div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>Check that your environment variables are set.</p>
-</li>
+<p>Financial services industry</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
 <li>
-<p>Re-read the previous section on configuration.</p>
-</li>
-</ul>
-</div>
-</div>
-</details>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_deep_dive_collapsed_by_default"><a class="anchor" href="#_deep_dive_collapsed_by_default"></a>Deep dive (collapsed by default)</h2>
-<div class="sectionbody">
-<details>
-<summary class="title">Deep dive: how the pipeline stages relate</summary>
-<div class="content">
-<div class="paragraph">
-<p>The build runs <strong>validate</strong>, then <strong>compile</strong>, then <strong>package</strong>. Skipping a stage can leave artifacts out of date; that is why CI always runs the full chain.</p>
-</div>
+<p>Input Check Prompt</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew clean build</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">prompts:
+  - task: self_check_input
+    content: |
+      Your task is to check if the user message below complies with financial services policies.
+
+      Company policy for the LLM application:
+      - Only provide general financial education and information
+      - Do not provide personalized investment advice or recommendations
+      - Do not make specific stock, bond, or cryptocurrency recommendations
+      - Do not provide tax advice or tax planning strategies
+      - Redirect users to licensed financial advisors for personalized advice
+
+      User message: "{{ user_input }}"
+
+      Question: Should the user message be blocked based on financial services policy?
+      Respond only with 'yes' or 'no'.
+      Answer:</code></pre>
 </div>
 </div>
-</div>
-</details>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starts_expanded"><a class="anchor" href="#_starts_expanded"></a>Starts expanded</h2>
-<div class="sectionbody">
-<details open>
-<summary class="title">Optional context</summary>
+</li>
+<li>
+<p>Output Check Prompt</p>
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p>This block uses <code>[%collapsible%open]</code> so it is expanded on first load. Use sparingly when the extra context is still optional but you want it visible by default.</p>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">prompts:
+  - task: self_check_output
+    content: |
+      Your task is to check if the bot response below complies with financial services policies.
+
+      Company policy for the LLM application:
+      - Only provide general financial education and information
+      - Do not provide personalized investment advice or recommendations
+      - Do not make specific stock, bond, or cryptocurrency recommendations
+      - Do not provide tax advice or tax planning strategies
+      - Do not guarantee returns or make predictions about market performance
+      - Include appropriate disclaimers when discussing financial products
+      - Do not ask for or process sensitive financial information like account numbers or SSNs
+
+      User message: "{{ user_input }}"
+      Bot response: "{{ bot_response }}"
+
+      Question: Should the bot response be blocked based on financial services policy?
+      Respond only with 'yes' or 'no'.
+      Answer:</code></pre>
 </div>
 </div>
-</details>
+</li>
+</ol>
 </div>
+</li>
+<li>
+<p>Telecommunications industry</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Input Check Prompt</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">prompts:
+  - task: self_check_input
+    content: |
+      Your task is to check if the user message below complies with telecommunications security policies.
+
+      Company policy for the LLM application:
+      - Do not provide internal network architecture details or IP address ranges
+      - Do not share authentication credentials or security configurations
+      - Do not provide specific details about network vulnerabilities or security incidents
+      - Do not share customer account information or call detail records
+      - Only provide general troubleshooting and publicly available information
+      - Redirect sensitive technical issues to authorized support channels
+
+      User message: "{{ user_input }}"
+
+      Question: Should the user message be blocked based on telecommunications security policy?
+      Respond only with 'yes' or 'no'.
+      Answer:</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Output Check Prompt</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">prompts:
+  - task: self_check_output
+    content: |
+      Your task is to check if the bot response below complies with telecommunications security policies.
+
+      Company policy for the LLM application:
+      - Do not provide internal network architecture details or IP address ranges
+      - Do not share authentication credentials or security configurations
+      - Do not provide specific details about network vulnerabilities or security incidents
+      - Do not share customer account information or call detail records
+      - Do not provide instructions that could be used for unauthorized network access
+      - Do not share capacity planning details or network performance metrics
+      - Only provide general troubleshooting and publicly available information
+
+      User message: "{{ user_input }}"
+      Bot response: "{{ bot_response }}"
+
+      Question: Should the bot response be blocked based on telecommunications security policy?
+      Respond only with 'yes' or 'no'.
+      Answer:</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="section8.html">Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection</a></span>
