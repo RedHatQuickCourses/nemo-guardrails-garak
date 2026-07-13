@@ -1,69 +1,109 @@
 = Industry-specific self-check guardrail examples
 
-== Hands-on lab
+Review example self-check guardrail prompts tailored for specific industries.
+Use these examples as starting points to create custom guardrails that enforce industry-specific policies and compliance requirements.
 
-=== Deployment
+To optimize the speed and efficacy of your self-check evaluations, carefully select the judge model in NeMo Guardrails.
+The Red Hat AI Safety team currently recommends https://huggingface.co/Qwen/Qwen3-14B[Qwen/Qwen3-14B] as a starting point, as it provides a strong balance between guardrail accuracy and infrastructure costs.
 
+. Financial services industry
+.. Input Check Prompt
 +
-[source,bash,role=execute,subs="attributes,quotes"]
+[source,bash,subs="attributes,quotes"]
+----
+prompts:
+  - task: self_check_input
+    content: |
+      Your task is to check if the user message below complies with financial services policies.
+
+      Company policy for the LLM application:
+      - Only provide general financial education and information
+      - Do not provide personalized investment advice or recommendations
+      - Do not make specific stock, bond, or cryptocurrency recommendations
+      - Do not provide tax advice or tax planning strategies
+      - Redirect users to licensed financial advisors for personalized advice
+
+      User message: "{{ user_input }}"
+
+      Question: Should the user message be blocked based on financial services policy?
+      Respond only with 'yes' or 'no'.
+      Answer:
 ----
 
-----
-
+.. Output Check Prompt
 +
-[tabs]
-====
-Highlights::
+[source,bash,subs="attributes,quotes"]
+----
+prompts:
+  - task: self_check_output
+    content: |
+      Your task is to check if the bot response below complies with financial services policies.
+
+      Company policy for the LLM application:
+      - Only provide general financial education and information
+      - Do not provide personalized investment advice or recommendations
+      - Do not make specific stock, bond, or cryptocurrency recommendations
+      - Do not provide tax advice or tax planning strategies
+      - Do not guarantee returns or make predictions about market performance
+      - Include appropriate disclaimers when discussing financial products
+      - Do not ask for or process sensitive financial information like account numbers or SSNs
+
+      User message: "{{ user_input }}"
+      Bot response: "{{ bot_response }}"
+
+      Question: Should the bot response be blocked based on financial services policy?
+      Respond only with 'yes' or 'no'.
+      Answer:
+----
+
+. Telecommunications industry
+.. Input Check Prompt
 +
+[source,bash,subs="attributes,quotes"]
+----
+prompts:
+  - task: self_check_input
+    content: |
+      Your task is to check if the user message below complies with telecommunications security policies.
 
-Content::
+      Company policy for the LLM application:
+      - Do not provide internal network architecture details or IP address ranges
+      - Do not share authentication credentials or security configurations
+      - Do not provide specific details about network vulnerabilities or security incidents
+      - Do not share customer account information or call detail records
+      - Only provide general troubleshooting and publicly available information
+      - Redirect sensitive technical issues to authorized support channels
+
+      User message: "{{ user_input }}"
+
+      Question: Should the user message be blocked based on telecommunications security policy?
+      Respond only with 'yes' or 'no'.
+      Answer:
+----
+
+.. Output Check Prompt
 +
-[source,yaml,role=execute,subs="attributes,quotes"]
+[source,bash,subs="attributes,quotes"]
+----
+prompts:
+  - task: self_check_output
+    content: |
+      Your task is to check if the bot response below complies with telecommunications security policies.
+
+      Company policy for the LLM application:
+      - Do not provide internal network architecture details or IP address ranges
+      - Do not share authentication credentials or security configurations
+      - Do not provide specific details about network vulnerabilities or security incidents
+      - Do not share customer account information or call detail records
+      - Do not provide instructions that could be used for unauthorized network access
+      - Do not share capacity planning details or network performance metrics
+      - Only provide general troubleshooting and publicly available information
+
+      User message: "{{ user_input }}"
+      Bot response: "{{ bot_response }}"
+
+      Question: Should the bot response be blocked based on telecommunications security policy?
+      Respond only with 'yes' or 'no'.
+      Answer:
 ----
 
-----
-====
-
-+
-[source,bash,role=execute,subs="attributes,quotes"]
-----
-
-----
-
-=== Testing
-
-This page demonstrates https://docs.asciidoctor.org/asciidoc/latest/blocks/collapsible/[collapsible example blocks^] in Antora: use them for optional *Hints*, *Deep dives*, or other detail that should not block the main lesson flow.
-
-No extra Antora extension is required; `[%collapsible]` is built into Asciidoctor.
-
-== Hint (collapsed by default)
-
-.Hint
-[%collapsible]
-====
-Try the exercise first; open this only if you are stuck.
-
-* Check that your environment variables are set.
-* Re-read the previous section on configuration.
-====
-
-== Deep dive (collapsed by default)
-
-.Deep dive: how the pipeline stages relate
-[%collapsible]
-====
-The build runs *validate*, then *compile*, then *package*. Skipping a stage can leave artifacts out of date; that is why CI always runs the full chain.
-
-[source,bash]
-----
-./gradlew clean build
-----
-====
-
-== Starts expanded
-
-.Optional context
-[%collapsible%open]
-====
-This block uses `[%collapsible%open]` so it is expanded on first load. Use sparingly when the extra context is still optional but you want it visible by default.
-====

@@ -1,6 +1,8 @@
 = Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
 :navtitle: Home
 
+Duration: pass:[<span class="course-total-duration" aria-live="polite">…</span>]
+
 == Introduction
 
 Course Title: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with EvalHub
@@ -8,8 +10,6 @@ Course Title: Enabling AI safety with NeMo Guardrails and Evaluate LLMs with Eva
 Description:
 This course covers the hands-on lab on the NVIDIA NeMo Guardrails and Garak (Generative AI Red-teaming & Assessment Kit) Evaluation Framework.
 This hands-on lab focuses on how to use NeMo Guardrails and Garak Evaluation Framework features in the Red Hat OpenShift AI (RHOAI) environment.
-
-Duration: pass:[<span class="course-total-duration" aria-live="polite">…</span>]
 
 == Objectives
 
