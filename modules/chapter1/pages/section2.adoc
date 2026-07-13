@@ -11,20 +11,27 @@ From this section onwards, you will build the configmap for NeMo Guardrail. You 
 image::openshift_login.png[]
 
 . Install the Red Hat OpenShift AI operator with default values.
+.. Search `openshift ai` in search field.
++
+image::openshift_ai_operator.png[]
 .. Ensure channel is selected as `stable-3.x`.
 .. Select `3.4.2` as version.
 +
-image::openshift_ai_operator.png[]
+image::openshift_ai_operator-1.png[]
 
 . Create Data Science cluster with default values.
++
+image::openshift_ai_operator-2.png[]
++
+image::openshift_ai_operator-3.png[]
 
 . Ensure trustyAI is in Managed state.
 .. Select the `default-dsc` resource from `Data Science Cluster` tab.
 +
-image::openshift_ai_operator-1.png[]
+image::openshift_ai_operator-4.png[]
 .. Switch the tab to `YAML`.
 +
-image::openshift_ai_operator-2.png[]
+image::openshift_ai_operator-5.png[]
 
 === LLMs
 
