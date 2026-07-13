@@ -2,5 +2,5 @@
 
 In this chapter, focus is on the following objectives:
 
-* Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls
-* Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails
+* Deploy and test NeMo Guardrails by using only built-in detectors and no LLM calls.
+* Deploy NeMo Guardrails with an LLM for advanced guardrail capabilities including self-check rails.

@@ -17,7 +17,7 @@ Guardrails detect and block these malicious inputs before they ever reach the mo
 * *Data Privacy*: NeMo Guardrails can be configured to detect Personally Identifiable Information (PII) using tools like Presidio. When PII is detected, the guardrails can be set to either completely block the interaction or mask the sensitive data.
 * *Domain and Industry Authority*: Guardrails ensure that a model only speaks about subjects it is well-informed on and has the authority to discuss.
 Furthermore, NeMo Guardrails allows you to set up industry-specific self-checks, such as tailored safety rules for the financial services or telecommunications industries.
-* *Reducing Inference Costs*: Generative models are massive and expensive to run, but guardrail detectors are typically orders of magnitude smaller (e.g., tens of millions of parameters instead of tens of billions).
+* *Reducing Inference Costs*: Generative models are massive and expensive to run, but guardrail detectors are typically orders of smaller magnitude (e.g., tens of millions of parameters instead of tens of billions).
 By short-circuiting forbidden, irrelevant, or off-topic queries at the guardrail level, you can prevent them from hitting your expensive generative model, saving massively on computation and inference costs.
 
 Let’s hear the story of one of the famous companies from the food industry on their journey with AI bot integration.

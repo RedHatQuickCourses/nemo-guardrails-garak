@@ -1,6 +1,6 @@
 = NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)
 
-From this section onwards, you will build the configmap for NeMo Guardrail. You will start with basic No Guardrails and then keep adding Guardrails till you have covered all aspects to safeguard.
+From this section onwards, you will build the configmap for NeMo Guardrail. You will start with basic - No Guardrails and then keep adding Guardrails till you have covered all aspects to safeguard.
 
 == Lab Prerequisites
 
