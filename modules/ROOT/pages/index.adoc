@@ -36,5 +36,6 @@ The PTL team acknowledges the valuable contributions of the following Red Hat as
  - Cansu Kavili Oernek (Principal AI Platform Architect)
  - Anneli Sara Banderby (Senior AI Architect)
  - Noel O'Connor (Senior Principal Architect)
+ - Trusty AI Engineering Team
  - Rutuja Deshmukh (Technical Training Developer)
  - Anna Swicegood (Learning Product Manager)
