@@ -1,4 +1,4 @@
-= NeMo Guardrails Configuration - Lemonade Stand with Regex Detection and PII
+= Lemonade Stand with Regex Detection and PII
 
 Let’s update the ConfigMap to include the Personally Identifiable Information (PII) detection.
 PII (Personally Identifiable Information) detection in NeMo Guardrails on Red Hat OpenShift AI is implemented using built-in detectors to identify, block, or mask sensitive user data (such as emails, phone numbers, or Social Security numbers) before and after Large Language Model processing.

@@ -1,4 +1,4 @@
-= NeMo Guardrails Configuration - Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions
+= Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions
 
 Extend the configuration with custom rails that implement your specific business logic by using Python actions.
 

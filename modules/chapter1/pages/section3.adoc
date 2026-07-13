@@ -1,4 +1,4 @@
-= NeMo Guardrails Configuration - Lemonade Stand with Regex Detection
+= Lemonade Stand with Regex Detection
 
 Let’s update the ConfigMap to include the regular expression (regex) detection.
 It is a built-in, low-latency utility used to block, filter, or validate specific text patterns (such as Social Security Numbers, credit cards, or banned keywords) before they hit the LLM or before a response is delivered to the user.

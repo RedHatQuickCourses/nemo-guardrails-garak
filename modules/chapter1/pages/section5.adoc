@@ -1,4 +1,4 @@
-= NeMo Guardrails Configuration - Lemonade Stand with LLM-as-Judge + Regex Detection + PII
+= Lemonade Stand with LLM-as-Judge + Regex Detection + PII
 
 Let’s update the ConfigMap to include the Prompt Injection.
 An LLM-as-a-judge uses a large language model to evaluate and moderate inputs and outputs.
