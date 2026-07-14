@@ -9,7 +9,7 @@ NeMo Guardrails uses built-in, pre-tested flow controls (like self_check_input a
 
 *Output Rails*: The judge reviews the primary LLM's response before the user sees it, checking for factual consistency, sensitive data leaks, or toxicity.
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -246,7 +246,7 @@ export INJECTION_GUARD_MODEL_NAME="your-guard-model"
 export INJECTION_GUARD_API_KEY="your-guard-api-key"
 ----
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----

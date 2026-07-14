@@ -3,7 +3,7 @@
 Let’s update the ConfigMap to include the regular expression (regex) detection.
 It is a built-in, low-latency utility used to block, filter, or validate specific text patterns (such as Social Security Numbers, credit cards, or banned keywords) before they hit the LLM or before a response is delivered to the user.
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -20,8 +20,8 @@ cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex
 ====
 Highlights::
 +
-.. regex_detection config is added.
-.. "regex check input" as input flow is added.
+.. `regex_detection` config is added.
+.. `regex check input` as input flow is added.
 
 Content::
 +
@@ -93,7 +93,7 @@ export LLM_MODEL_NAME="microsoft-phi-4"
 export LLM_API_KEY="your-api-key"
 ----
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----

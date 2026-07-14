@@ -3,7 +3,7 @@
 Let’s update the ConfigMap to include the Personally Identifiable Information (PII) detection.
 PII (Personally Identifiable Information) detection in NeMo Guardrails on Red Hat OpenShift AI is implemented using built-in detectors to identify, block, or mask sensitive user data (such as emails, phone numbers, or Social Security numbers) before and after Large Language Model processing.
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -20,8 +20,8 @@ cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex-plus-pi
 ====
 Highlights::
 +
-.. sensitive_data_detection config (PII detection configuration using Presidio) for input and output is added.
-.. “detect sensitive data on input” and “detect sensitive data on output” are added as input and output flows respectively.
+.. `sensitive_data_detection` config (PII detection configuration using Presidio) for input and output is added.
+.. `detect sensitive data on input` and `detect sensitive data on output` are added as input and output flows respectively.
 .. Custom refusal message for PII detection (overriding default) is also added.
 
 Content::
@@ -129,7 +129,7 @@ export LLM_MODEL_NAME="microsoft-phi-4"
 export LLM_API_KEY="your-api-key"
 ----
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----

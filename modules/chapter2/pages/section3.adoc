@@ -1,12 +1,13 @@
-= Safety and Security features in Red Hat AI 3.4
+= Safety and Security Features in Red Hat AI 3.4
 
-In the following arcade demo you will be able to learn how Red Hat AI 3.4 enables you to move beyond the vibe check and get to systematic security evaluations and enforcement.
+In the following arcade demo you will be able to learn how Red Hat OpenShift AI 3.4 enables you to move beyond the vibe check and get to systematic security evaluations and enforcement.
 
 ++++
 <iframe
   src="https://demo.arcade.software/GkiNIu6IqVRB04UolnoN?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
   width="100%"
   height="600px"
+  data-media-duration="660"
   frameborder="0"
   allowfullscreen
   webkitallowfullscreen

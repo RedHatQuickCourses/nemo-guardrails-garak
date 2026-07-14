@@ -3,7 +3,7 @@
 Let’s update the ConfigMap to include the HAP (Hate, Abuse, and Profanity) detection.
 It is one of the primary safety filters used alongside NVIDIA NeMo Guardrails to block toxic or inappropriate interactions between users and large language models (LLMs).
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -14,7 +14,7 @@ It is one of the primary safety filters used alongside NVIDIA NeMo Guardrails to
 cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex-plus-pii-plus-prompt-plus-hap
 ----
 
-. Review the updated ConfigMap (`configmap.yaml``) file which includes regex plus PII plus HAP detection.
+. Review the updated ConfigMap (`configmap.yaml`) file which includes regex plus PII plus HAP detection.
 +
 [tabs]
 ====
@@ -359,7 +359,7 @@ export HAP_GUARD_MODEL_NAME="your-hap-guard-model"
 export HAP_GUARD_API_KEY="your-hap-guard-api-key"
 ----
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----

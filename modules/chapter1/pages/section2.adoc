@@ -57,7 +57,7 @@ image::maas-5.png[]
 +
 image::maas-6.png[]
 
-== Hands-on lab
+== Hands-on Lab
 
 Let’s start building the NeMo Guardrails for the Lemonades company.
 

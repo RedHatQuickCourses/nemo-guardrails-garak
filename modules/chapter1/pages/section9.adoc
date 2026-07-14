@@ -1,4 +1,4 @@
-= Industry-specific self-check guardrail examples
+= Industry-specific Self-check Guardrail Examples
 
 Review example of self-check guardrail prompts tailored for specific industries.
 Use these examples as starting points to create custom guardrails that enforce industry-specific policies and compliance requirements.

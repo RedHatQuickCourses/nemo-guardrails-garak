@@ -1,5 +1,5 @@
 name: nemo-guardrails-garak
-title: Enabling AI safety with NeMo Guardrails and Evaluating LLMs with EvalHub
+title: Enabling AI Safety with NeMo Guardrails and Evaluating LLMs with EvalHub
 version: 1
 nav:
 - modules/ROOT/nav.adoc

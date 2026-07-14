@@ -1,4 +1,4 @@
-## Development using devspace 
+## Development using devspace
 
 - Access the devspace url (FIXME: url link)
 

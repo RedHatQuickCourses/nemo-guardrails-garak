@@ -3,7 +3,7 @@
 You can easily implement multilingual support and specific language detection by leveraging custom policies or dedicated multilingual safety models.
 Using the Lingua natural language detector with NeMo Guardrails in Red Hat OpenShift AI provides a robust intermediary layer to validate the language of user inputs before they reach the main generative model.
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -435,7 +435,7 @@ deployment.apps/lingua-detector created
 service/lingua-detector created
 ```
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----

@@ -2,7 +2,7 @@
 
 Extend the configuration with custom rails that implement your specific business logic by using Python actions.
 
-== Hands-on lab
+== Hands-on Lab
 
 === Deployment
 
@@ -348,7 +348,7 @@ export HAP_GUARD_MODEL_NAME="your-hap-guard-model"
 export HAP_GUARD_API_KEY="your-hap-guard-api-key"
 ----
 
-. Deploy with envsubst command.
+. Deploy with `envsubst` command.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
