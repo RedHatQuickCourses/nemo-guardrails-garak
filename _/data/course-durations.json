@@ -1,5 +1,5 @@
 {
-  "totalSeconds": 2329,
+  "totalSeconds": 2985,
   "pageCount": 17,
   "pages": [
     {
@@ -80,7 +80,7 @@
     {
       "module": "chapter2",
       "page": "section3.adoc",
-      "seconds": 14
+      "seconds": 670
     },
     {
       "module": "appendix",
