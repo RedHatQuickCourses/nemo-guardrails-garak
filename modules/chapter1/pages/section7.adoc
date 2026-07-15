@@ -1,4 +1,5 @@
 = Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions
+:page-lab-minutes: 10
 
 Extend the configuration with custom rails that implement your specific business logic by using Python actions.
 

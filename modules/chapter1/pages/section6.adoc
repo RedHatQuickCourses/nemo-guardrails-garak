@@ -1,4 +1,5 @@
 = Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP
+:page-lab-minutes: 10
 
 Let’s update the ConfigMap to include the HAP (Hate, Abuse, and Profanity) detection.
 It is one of the primary safety filters used alongside NVIDIA NeMo Guardrails to block toxic or inappropriate interactions between users and large language models (LLMs).

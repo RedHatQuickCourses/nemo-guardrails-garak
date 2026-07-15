@@ -1,4 +1,5 @@
 = Lemonade Stand with Multi-Model Guardrails + Regex Detection + PII + HAP + Custom Actions + Language Detection
+:page-lab-minutes: 10
 
 You can easily implement multilingual support and specific language detection by leveraging custom policies or dedicated multilingual safety models.
 Using the Lingua natural language detector with NeMo Guardrails in Red Hat OpenShift AI provides a robust intermediary layer to validate the language of user inputs before they reach the main generative model.

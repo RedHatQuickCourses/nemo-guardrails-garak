@@ -1,4 +1,5 @@
 = NeMo Guardrails Configuration for Lemonade Stand (No Guardrails)
+:page-lab-minutes: 10
 
 From this section onwards, you will build the configmap for NeMo Guardrail. You will start with basic - No Guardrails and then keep adding Guardrails till you have covered all aspects to safeguard.
 
@@ -8,54 +9,54 @@ From this section onwards, you will build the configmap for NeMo Guardrail. You 
 
 . Login to OpenShift Console with admin credentials.
 +
-image::openshift_login.png[]
+image::openshift_login.png[role=media-seconds-5]
 
 . Install the Red Hat OpenShift AI operator with default values.
 .. Search `openshift ai` in search field.
 +
-image::openshift_ai_operator.png[]
+image::openshift_ai_operator.png[role=media-seconds-5]
 .. Ensure channel is selected as `stable-3.x`.
 .. Select `3.4.2` as version.
 +
-image::openshift_ai_operator-1.png[]
+image::openshift_ai_operator-1.png[role=media-seconds-5]
 
 . Create Data Science cluster with default values.
 +
-image::openshift_ai_operator-2.png[]
+image::openshift_ai_operator-2.png[role=media-seconds-5]
 +
-image::openshift_ai_operator-3.png[]
+image::openshift_ai_operator-3.png[role=media-seconds-5]
 
 . Ensure trustyAI is in Managed state.
 .. Select the `default-dsc` resource from `Data Science Cluster` tab.
 +
-image::openshift_ai_operator-4.png[]
+image::openshift_ai_operator-4.png[role=media-seconds-5]
 .. Switch the tab to `YAML`.
 +
-image::openshift_ai_operator-5.png[]
+image::openshift_ai_operator-5.png[role=media-seconds-5]
 
 === LLMs
 
 . Use models from MaaS (Model-as-a-Service) by RHDP.
 .. In RHDP platform, click `Model-as-a-Service (MaaS)`.
 +
-image::maas.png[]
+image::maas.png[role=media-seconds-5]
 .. Log in to Red Hat Demo Platform MaaS with SSO.
 +
-image::maas-1.png[]
+image::maas-1.png[role=media-seconds-5]
 +
-image::maas-2.png[]
+image::maas-2.png[role=media-seconds-5]
 
 .. Click `Models` or Select `Models` from the menu to subscribe the models.
 +
-image::maas-3.png[]
+image::maas-3.png[role=media-seconds-5]
 ... Search the models (`microsoft-phi-4`, `granite-4-0-h-tiny-cpu` and `llama-scout-17b`) and subscribe them.
 +
-image::maas-4.png[]
+image::maas-4.png[role=media-seconds-5]
 ... Create API key.
 +
-image::maas-5.png[]
+image::maas-5.png[role=media-seconds-5]
 +
-image::maas-6.png[]
+image::maas-6.png[role=media-seconds-5]
 
 == Hands-on Lab
 
