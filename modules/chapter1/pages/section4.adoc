@@ -40,12 +40,13 @@ data:
     # Presidio: PII detection (input & output)
 
     models:
+      # Main conversational model
       - type: main
         engine: openai
+        model: ${LLM_MODEL_NAME}
+        api_key_env_var: LLM_API_KEY
         parameters:
-          openai_api_base: ${LLM_API_BASE}
-          model_name: ${LLM_MODEL_NAME}
-          api_key: ${LLM_API_KEY}
+          base_url: ${LLM_API_BASE}
 
     # System instructions - adapted from lemonade stand system prompt
     instructions:
@@ -134,9 +135,9 @@ export LLM_API_KEY="your-api-key"
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
-cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex
-envsubst < secret.yaml | oc apply -f -
-envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | oc apply -f -
+cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex-plus-pii
+envsubst '${LLM_API_KEY}' < secret.yaml | oc apply -f -
+envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME}' < configmap.yaml | oc apply -f -
 oc apply -f nemo.yaml
 ----
 +
@@ -156,132 +157,7 @@ NEMO_ROUTE=$(oc get route lemonade -o jsonpath='{.spec.host}')
 echo "NeMo Guardrails URL: https://$NEMO_ROUTE"
 ----
 
-. Test with a basic lemon question.
-This will work as you are asking about the lemons.
-+
-[source,bash,role=execute,subs="attributes,quotes"]
-----
-curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$LLM_MODEL_NAME"'",
-    "messages": [{"role":"user",*"content":"What are the health benefits of lemons?"*}]
-  }' | jq
-----
-+
-[source,bash,subs="attributes,quotes"]
-----
-{
-  "id": "chatcmpl-9348e42d-8f09-4736-a9c2-d2124d3e8ceb",
-  "choices": [
-    {
-      "finish_reason": "stop",
-      "index": 0,
-      "message": {
-        *"content"*: *"Lemons are rich in vitamin C, which is important for a healthy immune system and skin. They contain flavonoids, compounds that act as antioxidants to help protect cells from damage. Lemons also have a high content of citric acid and limonoids, which may aid in digestion and have been studied for their potential in cancer prevention. Additionally, they can support heart health due to their role in reducing cholesterol levels, calcium buildup, and blood pressure. The high potassium content in lemons can also benefit heart function and help maintain normal blood pressure. Lastly, the fiber in lemons can aid in digestion and promote gastrointestinal health."*,
-        "role": "assistant"
-      }
-    }
-  ],
-  "created": 1782145838,
-  "model": "microsoft-phi-4",
-  "object": "chat.completion",
-  "guardrails": {
-    "config_id": "lemonade-stand"
-  }
-}
-----
-
-. Now test the off topic question.
-This will not work as it is not related to lemons.
-+
-[source,bash,role=execute,subs="attributes,quotes"]
-----
-curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$LLM_MODEL_NAME"'",
-    "messages": [{"role":"user",*"content":"Tell me about oranges"*}]
-  }' | jq
-----
-+
-[source,bash,subs="attributes,quotes"]
-----
-{
-  "id": "chatcmpl-24e27cbf-fca7-4ae5-ad53-a52f8f7dbd09",
-  "choices": [
-    {
-      "finish_reason": "stop",
-      "index": 0,
-      "message": {
-        *"content"*: *"I'm sorry, but I specialize exclusively in lemons and can only provide information directly related to lemons. If you have questions about lemons, like their cultivation, varieties, or uses, feel free to ask!"*,
-        "role": "assistant"
-      }
-    }
-  ],
-  "created": 1782145900,
-  "model": "microsoft-phi-4",
-  "object": "chat.completion",
-  "guardrails": {
-    "config_id": "lemonade-stand"
-  }
-}
-----
-
-. Let’s test the regex specific content.
-You can notice the status as blocked.
-+
-[source,bash,role=execute,subs="attributes,quotes"]
-----
-curl -s -X POST "https://$NEMO_ROUTE/v1/guardrail/checks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$LLM_MODEL_NAME"'",
-    "messages": [{"role":"user",*"content":"My password for bot account is abc123456"*}]
-  }' | jq
-----
-+
-[source,bash,subs="attributes,quotes"]
-----
-{
-  *"status"*: *"blocked"*,
-  "rails_status": {
-    *"regex check input"*: {
-      *"status"*: *"blocked"*
-    }
-  },
-  "messages": [
-    {
-      "index": 0,
-      "role": "user",
-      "rails": {
-        "regex check input": {
-          "status": "blocked"
-        }
-      }
-    }
-  ],
-  "guardrails_data": {
-    "log": {
-      *"activated_rails"*: [
-        *"regex check input"*
-      ],
-      "stats": {
-        "input_rails_duration": 0.01636791229248047,
-        "dialog_rails_duration": null,
-        "generation_rails_duration": null,
-        "output_rails_duration": null,
-        "total_duration": 0.01914191246032715,
-        "llm_calls_duration": 0,
-        "llm_calls_count": 0,
-        "llm_calls_total_prompt_tokens": 0,
-        "llm_calls_total_completion_tokens": 0,
-        "llm_calls_total_tokens": 0
-      }
-    }
-  }
-}
-----
+. All tests from previous section should work as is.
 
 . Test PII in input content.
 You can notice the status as blocked by Presidio.

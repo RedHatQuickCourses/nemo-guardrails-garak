@@ -1,11 +1,11 @@
 {
-  "totalSeconds": 7255,
+  "totalSeconds": 6579,
   "pageCount": 17,
   "pages": [
     {
       "module": "ROOT",
       "page": "index.adoc",
-      "seconds": 70
+      "seconds": 72
     },
     {
       "module": "LABENV",
@@ -25,37 +25,37 @@
     {
       "module": "chapter1",
       "page": "section2.adoc",
-      "seconds": 957
+      "seconds": 945
     },
     {
       "module": "chapter1",
       "page": "section3.adoc",
-      "seconds": 728
+      "seconds": 667
     },
     {
       "module": "chapter1",
       "page": "section4.adoc",
-      "seconds": 771
+      "seconds": 680
     },
     {
       "module": "chapter1",
       "page": "section5.adoc",
-      "seconds": 832
+      "seconds": 699
     },
     {
       "module": "chapter1",
       "page": "section6.adoc",
-      "seconds": 870
+      "seconds": 700
     },
     {
       "module": "chapter1",
       "page": "section7.adoc",
-      "seconds": 905
+      "seconds": 718
     },
     {
       "module": "chapter1",
       "page": "section8.adoc",
-      "seconds": 748
+      "seconds": 668
     },
     {
       "module": "chapter1",
@@ -75,7 +75,7 @@
     {
       "module": "chapter2",
       "page": "section2.adoc",
-      "seconds": 148
+      "seconds": 201
     },
     {
       "module": "chapter2",
@@ -85,7 +85,7 @@
     {
       "module": "appendix",
       "page": "appendix.adoc",
-      "seconds": 13
+      "seconds": 16
     }
   ]
 }

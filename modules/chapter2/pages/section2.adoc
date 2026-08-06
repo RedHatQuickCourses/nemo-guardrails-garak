@@ -9,122 +9,63 @@
 
 == MLflow Deployment
 
-. Create MLflow deployment `mlflow.yaml` configuration file in `lemonades` namespace.
-+
-[source,yaml,role=execute,subs="attributes,quotes"]
-----
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: *lemonades*
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mlflow-pvc
-  namespace: *lemonades*
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mlflow
-  namespace: *lemonades*
-spec:
-  selector:
-    app: mlflow
-  ports:
-    - protocol: TCP
-      port: 5001
-      targetPort: 5001
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mlflow
-  namespace: *lemonades*
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mlflow
-  template:
-    metadata:
-      labels:
-        app: mlflow
-    spec:
-      containers:
-      - name: mlflow
-        image: python:3.10-slim
-        command:
-        - /bin/bash
-        - -c
-        - |
-          # 1. Create and activate a venv in /tmp (which is always writable)
-          python -m venv /tmp/venv
-          source /tmp/venv/bin/activate
-
-          # 2. Install MLflow safely into the venv
-          pip install mlflow
-
-          # 3. Start the MLflow server
-          mlflow server \
-            --backend-store-uri sqlite:////mlflow/mlflow.db \
-            --default-artifact-root /mlflow/artifacts \
-            --host 0.0.0.0 \
-            --port 5001
-        ports:
-        - containerPort: 5001
-        volumeMounts:
-        - name: mlflow-storage
-          mountPath: /mlflow
-      volumes:
-      - name: mlflow-storage
-        persistentVolumeClaim:
-          claimName: mlflow-pvc
-----
-
-. Deploy the resources to your cluster by running the following command.
+. Enable the MLflow Operator component by patching the DataScienceCluster object.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
-oc apply -f mlflow.yaml
+oc patch datasciencecluster default-dsc \
+  --type=merge \
+  -p '{"spec":{"components":{"mlflowoperator":{"managementState":"Managed"}}}}'
+----
+
+. Create an `MLflow` custom resource (CR) as `MLflow.yaml`.
+Choose the configuration that matches your environment.
++
+[source,yaml,role=execute,subs="attributes,quotes"]
+----
+apiVersion: mlflow.opendatahub.io/v1
+kind: MLflow
+metadata:
+  name: mlflow
+  namespace: redhat-ods-applications
+spec:
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+  backendStoreUri: "sqlite:////mlflow/mlflow.db"
+  artifactsDestination: "file:///mlflow/artifacts"
+  serveArtifacts: true
 ----
 +
-```
-namespace/lemonades configured
-persistentvolumeclaim/mlflow-pvc created
-service/mlflow created
-deployment.apps/mlflow created
-```
+NOTE: This is `Minimal development or test deployment`.
+Uses `SQLite` for the backend store and a persistent volume claim (PVC) for file-based artifact storage.
+
+. Deploy the `MLflow` resource to your cluster by running the following command.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+oc apply -f MLflow.yaml
+----
 
 . Verify the MLflow is deployed.
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
-oc logs -l app=mlflow -n lemonades
+oc get pods -n redhat-ods-applications | grep -i mlflow
 ----
 +
 ```
-2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:51 INFO:     Started server process [116]
-2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:51 INFO:     Started server process [119]
-2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered online_scoring_scheduler periodic task (runs every 1 minute)
-2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered trace_archival_scheduler periodic task (polls every 1 minute and no-ops when trace archival is disabled or unconfigured)
+mlflow-5865ff54c7-d9nm6                                           2/2     Running   2          6h18m
+mlflow-operator-controller-manager-967bf5d4d-d5vpr                1/1     Running   1          9h
 ```
+In the OpenShift AI dashboard navigation bar, click the Applications menu.
+Confirm that the MLflow UI is displayed in the list.
+
 +
-NOTE: It will take some time to deploy.
+image::mlflow.png[role=media-seconds-5]
 
 == Postgresql Deployment
 
@@ -278,6 +219,17 @@ oc create secret generic model-api-key --from-literal=api-key="<YOUR AIP KEY>" -
 secret/model-api-key created
 ```
 
+. Get the `MLFLOW_TRACKING_URI`.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+oc get mlflow mlflow -o jsonpath='{"Internal URI: "}{.status.address.url}{"\n"}'
+----
++
+```
+Internal URI: https://mlflow.redhat-ods-applications.svc:8443
+```
+
 . Create an `EvalHub` custom resource to deploy the service, such as `evalhub_cr.yaml`.
 +
 [source,yaml,role=execute,subs="attributes,quotes"]
@@ -298,7 +250,7 @@ spec:
     - safety-and-fairness-v1
   env:
     - name: MLFLOW_TRACKING_URI
-      value: "http://mlflow.lemonades.svc.cluster.local:5001"
+      value: "https://mlflow.redhat-ods-applications.svc:8443"
 ----
 
 . Apply the custom resource to the cluster.
@@ -716,6 +668,8 @@ model:
 benchmarks:
   - id: avid_ethics
     provider_id: garak
+experiment:
+  name: my-model-v2-eval
 ----
 
 . Submit a job by specifying the model endpoint and one or more benchmarks.
@@ -767,6 +721,30 @@ IMPORTANT: The time it takes for a Garak evaluation job to complete can range an
 . Unfortunately, for this training there are no actual model evaluation results in the json format.
 Results may be added in future updates of this training.
 But in the next section, there is arcade demo on the GUI based evaluation for Garak.
+
+. You can see the experiment in MLflow dashboard.
+
+.. Select your workspace.
++
+image::mlflow1.png[role=media-seconds-5]
+
+.. Select `lemonades` from drop down menu.
++
+image::mlflow2.png[role=media-seconds-5]
+
+.. Click `my-model-v2-eval` but you will not be able to see the results.
++
+image::mlflow3.png[role=media-seconds-5]
+
+.. Click `Start Demo` button.
++
+image::mlflow4.png[role=media-seconds-5]
+
+.. Now you can see the demo experiment results.
++
+image::mlflow5.png[role=media-seconds-5]
++
+image::mlflow6.png[role=media-seconds-5]
 
 . Cancel the evaluation job.
 +

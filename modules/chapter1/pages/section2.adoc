@@ -137,12 +137,13 @@ data:
     # Backend-only setup with Phi-4 model
 
     models:
-      - type: main
+      # Main conversational model
+      - type: *main*
         engine: openai
+        model: *${LLM_MODEL_NAME}*
+        api_key_env_var: *LLM_API_KEY*
         parameters:
-          *openai_api_base: ${LLM_API_BASE}*
-          *model_name: ${LLM_MODEL_NAME}*
-          *api_key: ${LLM_API_KEY}*
+          base_url: *${LLM_API_BASE}*
 
     # System instructions - adapted from lemonade stand system prompt
     *instructions:*
@@ -194,11 +195,9 @@ Content::
 apiVersion: v1
 kind: Secret
 metadata:
-  name: lemonade-secret
+  name: *lemonade-secret*
 type: Opaque
 stringData:
-  api-base: *"${LLM_API_BASE}"*
-  model-name: *"${LLM_MODEL_NAME}"*
   api-key: *"${LLM_API_KEY}"*
 ----
 ====
@@ -222,26 +221,16 @@ metadata:
   name: lemonade
 spec:
   nemoConfigs:
-    - name: lemonade-stand
+    - name: *lemonade-stand*
       default: true
-      *configMaps*:
+      configMaps:
         - *lemonade-config*
   env:
-    - name: LLM_API_BASE
+    - name: *LLM_API_KEY*
       valueFrom:
         secretKeyRef:
           name: *lemonade-secret*
-          key: api-base
-    - name: LLM_MODEL_NAME
-      valueFrom:
-        secretKeyRef:
-          name: *lemonade-secret*
-          key: model-name
-    - name: LLM_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: *lemonade-secret*
-          key: api-key
+          key: *api-key*
 ----
 ====
 
@@ -251,8 +240,8 @@ Deploy with envsubst command.
 [source,bash,role=execute]
 ----
 cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message
-envsubst < secret.yaml | oc apply -f -
-envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | oc apply -f -
+envsubst '${LLM_API_KEY}' < secret.yaml | oc apply -f -
+envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME}' < configmap.yaml | oc apply -f -
 oc apply -f nemo.yaml
 ----
 +
@@ -263,6 +252,31 @@ nemoguardrails.trustyai.opendatahub.io/lemonade created
 ```
 +
 NOTE: Envsubst is a lightweight command-line utility used for environment variable substitution in configuration files, shell scripts, and DevOps automation workflows across Linux systems.
+
+. It may take some time to deploy you can verify the status of pod is running.
++
+[source,bash,role=execute]
+----
+oc get all -n lemonades
+----
++
+```
+Warning: apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/lemonade-765475b4d4-fgmbw   1/1     Running   0          3m38s
+
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/lemonade   ClusterIP   172.231.26.178   <none>        80/TCP    3m38s
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/lemonade   1/1     1            1           3m38s
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/lemonade-765475b4d4   1         1         1       3m38s
+
+NAME                                HOST/PORT                                                      PATH   SERVICES   PORT       TERMINATION     WILDCARD
+route.route.openshift.io/lemonade   lemonade-lemonades.apps.cluster-lbnt7.dyn.redhatworkshops.io          lemonade   lemonade   edge/Redirect   None
+```
 
 === Testing
 
@@ -282,6 +296,115 @@ For RAG and agentic workflows, you can send the retrieval or tool payloads to th
 
 .. */v1/chat/completions*: Use this endpoint to generate LLM responses with guardrails applied to both input and output.
 The /v1/chat/completions endpoint processes user messages through input rails, generates an LLM response, and validates the response through output rails before returning it to the user.
+
+. If you try to test it with a `curl` command, it will fail.
++
+[source,bash,role=execute,subs="attributes,quotes"]
+----
+curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$LLM_MODEL_NAME"'",
+    "messages": [{"role":"user",*"content":"What are the health benefits of lemons?"*}]
+  }' | jq
+----
++
+```
+jq: parse error: Invalid numeric literal at line 1, column 9
+```
+
+.. Review the pod logs.
++
+[source,bash,role=execute]
+----
+oc logs pod/lemonade-765475b4d4-fgmbw -n lemonades
+----
++
+```
+...
+...
+...
+  File "/app/.venv/lib64/python3.12/site-packages/nemoguardrails/llm/models/langchain_initializer.py", line 187, in init_langchain_model
+    raise ModelInitializationError(base) from last_exception
+nemoguardrails.llm.models.langchain_initializer.ModelInitializationError: Failed to initialize model 'microsoft-phi-4' with provider 'openai' in 'chat' mode: ValueError encountered in initializer _init_text_completion_model(modes=['text', 'chat']) for model: microsoft-phi-4 and provider: openai: 1 validation error for OpenAI
+  Value error, Did not find openai_api_key, please add an environment variable `OPENAI_API_KEY` which contains it, or pass `openai_api_key` as a named parameter. [type=value_error, input_value={'model_name': 'microsoft...ne, 'http_client': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/value_error
+INFO:     10.235.0.2:49340 - "GET / HTTP/1.1" 200 OK
+```
+
+.. The 3.4 version of the `odh-trustyai-nemo-guardrails-server-rhel9` image, still has the langchain dependency and which is not the case in 3.5 EA2 release image.
+
+.. This is the reason in previous deployment using `envsubst` command (`envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | oc apply -f -`), had to pass the api key.
+
+.. Now, lets find out the current `odh-trustyai-nemo-guardrails-server-rhel9` image.
++
+[source,bash,role=execute]
+----
+oc get pod lemonade-765475b4d4-fgmbw -n lemonades -o jsonpath='{.spec.containers[*].image}{"\n"}'
+----
++
+```
+registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+.. Search the `odh-trustyai-nemo-guardrails-server-rhel9` image in https://catalog.redhat.com/en/search?searchType=All&q=rhoai%2Fodh-trustyai-nemo-guardrails-server-rhel9&p=1[catalog.redhat.com, window=_blank].
++
+image::nemo_server_image.png[role=media-seconds-5]
+
+.. Get the image `Manifest List Digest` from `Get this image` tab.
+Notice the image tag as `v3.5-ea.2`.
++
+image::nemo_server_image_1.png[role=media-seconds-5]
+
+.. Now, you need to patch the deployment image to `v3.5-ea.2`.
++
+[source,bash,role=execute]
+----
+oc patch subscription rhods-operator -n redhat-ods-operator --type='merge' -p='{"spec":{"config":{"env":[{"name":"RELATED_IMAGE_ODH_TRUSTYAI_NEMO_GUARDRAILS_SERVER_IMAGE","value":"registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}]}}}'
+----
++
+```
+subscription.operators.coreos.com/rhods-operator patched
+```
+
+.. You can see new pod is deployed with updated image.
+It can take upto 5 minutes to deploy the pod with new image.
++
+[source,bash,role=execute]
+----
+oc get pods -n lemonades
+----
++
+```
+NAME                        READY   STATUS     RESTARTS   AGE
+lemonade-765475b4d4-fgmbw   1/1     Running    0          79m
+lemonade-848df68fbd-pn85x   0/1     Init:0/1   0          68s
+```
++
+```
+NAME                        READY   STATUS    RESTARTS   AGE
+lemonade-765475b4d4-fgmbw   1/1     Running   0          82m
+lemonade-848df68fbd-pn85x   0/1     Running   0          4m14s
+```
++
+```
+NAME                        READY   STATUS    RESTARTS   AGE
+lemonade-848df68fbd-pn85x   1/1     Running   0          6m18s
+```
++
+[source,bash,role=execute]
+----
+ oc get deployment/lemonade -o yaml | grep -i image
+----
++
+```
+        image: registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        imagePullPolicy: IfNotPresent
+        image: registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        imagePullPolicy: IfNotPresent
+```
+
+.. Now, you can proceed with testing.
 
 . Test with a basic lemon question.
 This will work as you are asking about the lemons.
