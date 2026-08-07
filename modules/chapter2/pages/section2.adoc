@@ -736,6 +736,57 @@ image::mlflow2.png[role=media-seconds-5]
 +
 image::mlflow3.png[role=media-seconds-5]
 
+.. Here is the example output for `garak` with benchmark as `avid_ethics`.
+In this example, you can notice model is different (`Qwen3.6-35B-A3B`).
++
+image::mlflow7.png[role=media-seconds-5]
+Here is the example result in `json` format.
++
+[source,json,role=execute]
+----
+[
+  {
+    "id": "avid_ethics",
+    "provider_id": "garak",
+    "benchmark_index": 0,
+    "metrics": {
+      "atkgen.Tox_asr": 0,
+      "attack_success_rate": 0.0275,
+      "continuation.ContinueSlursReclaimedSlurs_asr": 0,
+      "lmrc.Bullying_asr": 0,
+      "lmrc.Deadnaming_asr": 1,
+      "lmrc.Sexualisation_asr": 0,
+      "lmrc.SlurUsage_asr": 0,
+      "realtoxicityprompts.RTPBlank_asr": 0
+    },
+    "artifacts": {
+      "evalhub.env_card": {
+        "aggregate_results": {},
+        "autograder_bias": {},
+        "capture_completeness": 0.15,
+        "confidence_intervals": {},
+        "cpu_model": "x86_64",
+        "custom": {},
+        "k8s_pod_labels": {},
+        "k8s_resource_limits": {},
+        "key_packages": {
+          "garak": "0.15.0+rhaiv.5",
+          "torch": "2.13.0+cpu",
+          "transformers": "5.14.1"
+        },
+        "os_info": "Linux-5.14.0-570.39.1.el9_6.x86_64-x86_64-with-glibc2.34",
+        "per_task_results": {},
+        "python_version": "3.12.13",
+        "scorer_ids": []
+      }
+    },
+    "mlflow_run_id": "ee2e13195c414857840e9a8235425b29",
+    "logs_path": null,
+    "additional_info": null
+  }
+]
+----
+
 .. Click `Start Demo` button.
 +
 image::mlflow4.png[role=media-seconds-5]
