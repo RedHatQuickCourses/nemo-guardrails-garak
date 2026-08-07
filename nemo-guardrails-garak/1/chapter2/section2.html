@@ -185,122 +185,35 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create MLflow deployment <code>mlflow.yaml</code> configuration file in <code>lemonades</code> namespace.</p>
+<p>Enable the MLflow Operator component by patching the DataScienceCluster object.</p>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: <strong>lemonades</strong>
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mlflow-pvc
-  namespace: <strong>lemonades</strong>
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mlflow
-  namespace: <strong>lemonades</strong>
-spec:
-  selector:
-    app: mlflow
-  ports:
-    - protocol: TCP
-      port: 5001
-      targetPort: 5001
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mlflow
-  namespace: <strong>lemonades</strong>
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mlflow
-  template:
-    metadata:
-      labels:
-        app: mlflow
-    spec:
-      containers:
-      - name: mlflow
-        image: python:3.10-slim
-        command:
-        - /bin/bash
-        - -c
-        - |
-          # 1. Create and activate a venv in /tmp (which is always writable)
-          python -m venv /tmp/venv
-          source /tmp/venv/bin/activate
-
-          # 2. Install MLflow safely into the venv
-          pip install mlflow
-
-          # 3. Start the MLflow server
-          mlflow server \
-            --backend-store-uri sqlite:////mlflow/mlflow.db \
-            --default-artifact-root /mlflow/artifacts \
-            --host 0.0.0.0 \
-            --port 5001
-        ports:
-        - containerPort: 5001
-        volumeMounts:
-        - name: mlflow-storage
-          mountPath: /mlflow
-      volumes:
-      - name: mlflow-storage
-        persistentVolumeClaim:
-          claimName: mlflow-pvc</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch datasciencecluster default-dsc \
+  --type=merge \
+  -p '{"spec":{"components":{"mlflowoperator":{"managementState":"Managed"}}}}'</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Deploy the resources to your cluster by running the following command.</p>
+<p>Create an <code>MLflow</code> custom resource (CR) as <code>MLflow.yaml</code>.
+Choose the configuration that matches your environment.</p>
 <div class="listingblock execute">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f mlflow.yaml</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">namespace/lemonades configured
-persistentvolumeclaim/mlflow-pvc created
-service/mlflow created
-deployment.apps/mlflow created</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Verify the MLflow is deployed.</p>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc logs -l app=mlflow -n lemonades</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:51 INFO:     Started server process [116]
-2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:51 INFO:     Started server process [119]
-2026/07/13 09:04:51 INFO:     Waiting for application startup.
-2026/07/13 09:04:51 INFO:     Application startup complete.
-2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered online_scoring_scheduler periodic task (runs every 1 minute)
-2026/07/13 09:04:54 INFO mlflow.server.jobs.utils: Registered trace_archival_scheduler periodic task (polls every 1 minute and no-ops when trace archival is disabled or unconfigured)</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: mlflow.opendatahub.io/v1
+kind: MLflow
+metadata:
+  name: mlflow
+  namespace: redhat-ods-applications
+spec:
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+  backendStoreUri: "sqlite:////mlflow/mlflow.db"
+  artifactsDestination: "file:///mlflow/artifacts"
+  serveArtifacts: true</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -310,10 +223,42 @@ deployment.apps/mlflow created</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-It will take some time to deploy.
+This is <code>Minimal development or test deployment</code>.
+Uses <code>SQLite</code> for the backend store and a persistent volume claim (PVC) for file-based artifact storage.
 </td>
 </tr>
 </table>
+</div>
+</li>
+<li>
+<p>Deploy the <code>MLflow</code> resource to your cluster by running the following command.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f MLflow.yaml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify the MLflow is deployed.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n redhat-ods-applications | grep -i mlflow</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">mlflow-5865ff54c7-d9nm6                                           2/2     Running   2          6h18m
+mlflow-operator-controller-manager-967bf5d4d-d5vpr                1/1     Running   1          9h</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the OpenShift AI dashboard navigation bar, click the Applications menu.
+Confirm that the MLflow UI is displayed in the list.</p>
+</div>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow.png" alt="mlflow">
+</div>
 </div>
 </li>
 </ol>
@@ -495,6 +440,19 @@ stringData:
 </div>
 </li>
 <li>
+<p>Get the <code>MLFLOW_TRACKING_URI</code>.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get mlflow mlflow -o jsonpath='{"Internal URI: "}{.status.address.url}{"\n"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Internal URI: https://mlflow.redhat-ods-applications.svc:8443</code></pre>
+</div>
+</div>
+</li>
+<li>
 <p>Create an <code>EvalHub</code> custom resource to deploy the service, such as <code>evalhub_cr.yaml</code>.</p>
 <div class="listingblock execute">
 <div class="content">
@@ -514,7 +472,7 @@ spec:
     - safety-and-fairness-v1
   env:
     - name: MLFLOW_TRACKING_URI
-      value: "http://mlflow.lemonades.svc.cluster.local:5001"</code></pre>
+      value: "https://mlflow.redhat-ods-applications.svc:8443"</code></pre>
 </div>
 </div>
 </li>
@@ -953,7 +911,9 @@ model:
     secret_ref: model-api-key
 benchmarks:
   - id: avid_ethics
-    provider_id: garak</code></pre>
+    provider_id: garak
+experiment:
+  name: my-model-v2-eval</code></pre>
 </div>
 </div>
 </li>
@@ -1022,6 +982,58 @@ The time it takes for a Garak evaluation job to complete can range anywhere from
 <p>Unfortunately, for this training there are no actual model evaluation results in the json format.
 Results may be added in future updates of this training.
 But in the next section, there is arcade demo on the GUI based evaluation for Garak.</p>
+</li>
+<li>
+<p>You can see the experiment in MLflow dashboard.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Select your workspace.</p>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow1.png" alt="mlflow1">
+</div>
+</div>
+</li>
+<li>
+<p>Select <code>lemonades</code> from drop down menu.</p>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow2.png" alt="mlflow2">
+</div>
+</div>
+</li>
+<li>
+<p>Click <code>my-model-v2-eval</code> but you will not be able to see the results.</p>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow3.png" alt="mlflow3">
+</div>
+</div>
+</li>
+<li>
+<p>Click <code>Start Demo</code> button.</p>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow4.png" alt="mlflow4">
+</div>
+</div>
+</li>
+<li>
+<p>Now you can see the demo experiment results.</p>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow5.png" alt="mlflow5">
+</div>
+</div>
+<div class="imageblock media-seconds-5">
+<div class="content">
+<img src="_images/mlflow6.png" alt="mlflow6">
+</div>
+</div>
+</li>
+</ol>
+</div>
 </li>
 <li>
 <p>Cancel the evaluation job.</p>
