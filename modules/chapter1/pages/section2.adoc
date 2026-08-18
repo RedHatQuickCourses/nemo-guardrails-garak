@@ -37,6 +37,9 @@ image::openshift_ai_operator-5.png[role=media-seconds-5]
 === LLMs
 
 . Use models from MaaS (Model-as-a-Service) by RHDP.
++
+IMPORTANT: You will need to use your MaaS (Model-as-a-Service) in case you can't access the MaaS service offered by Red Hat Demo Platform (RHDP).
+
 .. In RHDP platform, click `Model-as-a-Service (MaaS)`.
 +
 image::maas.png[role=media-seconds-5]
@@ -320,6 +323,8 @@ jq: parse error: Invalid numeric literal at line 1, column 9
 oc logs pod/lemonade-765475b4d4-fgmbw -n lemonades
 ----
 +
+NOTE: Replace the pod in above command with actual pod name.
++
 ```
 ...
 ...
@@ -343,6 +348,8 @@ INFO:     10.235.0.2:49340 - "GET / HTTP/1.1" 200 OK
 oc get pod lemonade-765475b4d4-fgmbw -n lemonades -o jsonpath='{.spec.containers[*].image}{"\n"}'
 ----
 +
+NOTE: Replace the pod in above command with actual pod name.
++
 ```
 registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
@@ -353,6 +360,7 @@ image::nemo_server_image.png[role=media-seconds-5]
 
 .. Get the image `Manifest List Digest` from `Get this image` tab.
 Notice the image tag as `v3.5-ea.2`.
+If the image tag is different then click on `Change version` and select `v3.5-ea.2` image.
 +
 image::nemo_server_image_1.png[role=media-seconds-5]
 
@@ -363,9 +371,13 @@ image::nemo_server_image_1.png[role=media-seconds-5]
 oc patch subscription rhods-operator -n redhat-ods-operator --type='merge' -p='{"spec":{"config":{"env":[{"name":"RELATED_IMAGE_ODH_TRUSTYAI_NEMO_GUARDRAILS_SERVER_IMAGE","value":"registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}]}}}'
 ----
 +
+NOTE: Replace the correct digest in above command.
++
 ```
 subscription.operators.coreos.com/rhods-operator patched
 ```
++
+NOTE: It will take at least a minute to update the image in deployment config and redeploying the pod with new image.
 
 .. You can see new pod is deployed with updated image.
 It can take upto 5 minutes to deploy the pod with new image.
