@@ -1,5 +1,5 @@
 {
-  "totalSeconds": 6592,
+  "totalSeconds": 6618,
   "pageCount": 17,
   "pages": [
     {
@@ -10,7 +10,7 @@
     {
       "module": "LABENV",
       "page": "index-lab-demo.adoc",
-      "seconds": 16
+      "seconds": 23
     },
     {
       "module": "chapter1",
@@ -25,7 +25,7 @@
     {
       "module": "chapter1",
       "page": "section2.adoc",
-      "seconds": 945
+      "seconds": 964
     },
     {
       "module": "chapter1",
