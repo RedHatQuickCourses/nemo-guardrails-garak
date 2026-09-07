@@ -1,6 +1,6 @@
 = Lab Environment
 
-== Instructions to Launch Your Lab on the Red Hat Demo Platform (RHDP)
+== Bring Your Own Lab (BYOL) Environment
 
 IMPORTANT: In case you don't have access to lab offered by Red Hat Demo Platform (RHDP) then you can bring your own lab environment with following requirement:
 
@@ -9,6 +9,10 @@ IMPORTANT: In case you don't have access to lab offered by Red Hat Demo Platform
 . OpenShift Worker Count - 2
 . OpenShift Worker CPU - 16
 . OpenShift Worker Memory - 64Gi
+
+IMPORTANT: You will need to use your MaaS (Model-as-a-Service) in case you can't access the MaaS service offered by Red Hat Demo Platform (RHDP).
+
+== Instructions to Launch Your Lab on the Red Hat Demo Platform (RHDP)
 
 === Red Hat Associates
 
