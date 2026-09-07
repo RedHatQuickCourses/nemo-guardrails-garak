@@ -16,9 +16,11 @@ image::openshift_login.png[role=media-seconds-5]
 +
 image::openshift_ai_operator.png[role=media-seconds-5]
 .. Ensure channel is selected as `stable-3.x`.
-.. Select `3.4.2` as version.
+.. Select `3.5.0` as version.
 +
 image::openshift_ai_operator-1.png[role=media-seconds-5]
++
+image::openshift_ai_operator-1_1.png[role=media-seconds-5]
 
 . Create Data Science cluster with default values.
 +
@@ -299,124 +301,6 @@ For RAG and agentic workflows, you can send the retrieval or tool payloads to th
 
 .. */v1/chat/completions*: Use this endpoint to generate LLM responses with guardrails applied to both input and output.
 The /v1/chat/completions endpoint processes user messages through input rails, generates an LLM response, and validates the response through output rails before returning it to the user.
-
-. If you try to test it with a `curl` command, it will fail.
-+
-[source,bash,role=execute,subs="attributes,quotes"]
-----
-curl -s -X POST "https://$NEMO_ROUTE/v1/chat/completions" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$LLM_MODEL_NAME"'",
-    "messages": [{"role":"user",*"content":"What are the health benefits of lemons?"*}]
-  }' | jq
-----
-+
-```
-jq: parse error: Invalid numeric literal at line 1, column 9
-```
-
-.. Review the pod logs.
-+
-[source,bash,role=execute]
-----
-oc logs pod/lemonade-765475b4d4-fgmbw -n lemonades
-----
-+
-NOTE: Replace the pod in above command with actual pod name.
-+
-```
-...
-...
-...
-  File "/app/.venv/lib64/python3.12/site-packages/nemoguardrails/llm/models/langchain_initializer.py", line 187, in init_langchain_model
-    raise ModelInitializationError(base) from last_exception
-nemoguardrails.llm.models.langchain_initializer.ModelInitializationError: Failed to initialize model 'microsoft-phi-4' with provider 'openai' in 'chat' mode: ValueError encountered in initializer _init_text_completion_model(modes=['text', 'chat']) for model: microsoft-phi-4 and provider: openai: 1 validation error for OpenAI
-  Value error, Did not find openai_api_key, please add an environment variable `OPENAI_API_KEY` which contains it, or pass `openai_api_key` as a named parameter. [type=value_error, input_value={'model_name': 'microsoft...ne, 'http_client': None}, input_type=dict]
-    For further information visit https://errors.pydantic.dev/2.11/v/value_error
-INFO:     10.235.0.2:49340 - "GET / HTTP/1.1" 200 OK
-```
-
-.. The 3.4 version of the `odh-trustyai-nemo-guardrails-server-rhel9` image, still has the langchain dependency and which is not the case in 3.5 EA2 release image.
-
-.. This is the reason in previous deployment using `envsubst` command (`envsubst '${LLM_API_BASE} ${LLM_MODEL_NAME} ${LLM_API_KEY}' < configmap.yaml | oc apply -f -`), had to pass the api key.
-
-.. Now, lets find out the current `odh-trustyai-nemo-guardrails-server-rhel9` image.
-+
-[source,bash,role=execute]
-----
-oc get pod lemonade-765475b4d4-fgmbw -n lemonades -o jsonpath='{.spec.containers[*].image}{"\n"}'
-----
-+
-NOTE: Replace the pod in above command with actual pod name.
-+
-```
-registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-.. Search the `odh-trustyai-nemo-guardrails-server-rhel9` image in https://catalog.redhat.com/en/search?searchType=All&q=rhoai%2Fodh-trustyai-nemo-guardrails-server-rhel9&p=1[catalog.redhat.com, window=_blank].
-+
-image::nemo_server_image.png[role=media-seconds-5]
-
-.. Get the image `Manifest List Digest` from `Get this image` tab.
-Notice the image tag as `v3.5-ea.2`.
-If the image tag is different then click on `Change version` and select `v3.5-ea.2` image.
-+
-image::nemo_server_image_1.png[role=media-seconds-5]
-
-.. Now, you need to patch the deployment image to `v3.5-ea.2`.
-+
-[source,bash,role=execute]
-----
-oc patch subscription rhods-operator -n redhat-ods-operator --type='merge' -p='{"spec":{"config":{"env":[{"name":"RELATED_IMAGE_ODH_TRUSTYAI_NEMO_GUARDRAILS_SERVER_IMAGE","value":"registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}]}}}'
-----
-+
-NOTE: Replace the correct digest in above command.
-+
-```
-subscription.operators.coreos.com/rhods-operator patched
-```
-+
-NOTE: It will take at least a minute to update the image in deployment config and redeploying the pod with new image.
-
-.. You can see new pod is deployed with updated image.
-It can take upto 5 minutes to deploy the pod with new image.
-+
-[source,bash,role=execute]
-----
-oc get pods -n lemonades
-----
-+
-```
-NAME                        READY   STATUS     RESTARTS   AGE
-lemonade-765475b4d4-fgmbw   1/1     Running    0          79m
-lemonade-848df68fbd-pn85x   0/1     Init:0/1   0          68s
-```
-+
-```
-NAME                        READY   STATUS    RESTARTS   AGE
-lemonade-765475b4d4-fgmbw   1/1     Running   0          82m
-lemonade-848df68fbd-pn85x   0/1     Running   0          4m14s
-```
-+
-```
-NAME                        READY   STATUS    RESTARTS   AGE
-lemonade-848df68fbd-pn85x   1/1     Running   0          6m18s
-```
-+
-[source,bash,role=execute]
-----
- oc get deployment/lemonade -o yaml | grep -i image
-----
-+
-```
-        image: registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        imagePullPolicy: IfNotPresent
-        image: registry.redhat.io/rhoai/odh-trustyai-nemo-guardrails-server-rhel9@sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        imagePullPolicy: IfNotPresent
-```
-
-.. Now, you can proceed with testing.
 
 . Test with a basic lemon question.
 This will work as you are asking about the lemons.

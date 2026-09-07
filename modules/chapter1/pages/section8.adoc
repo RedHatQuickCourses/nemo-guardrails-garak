@@ -428,6 +428,7 @@ export HAP_GUARD_API_KEY="your-hap-guard-api-key"
 +
 [source,bash,role=execute,subs="attributes,quotes"]
 ----
+cd ~/rhoai_demos/nemo_openshift/move-lemons/cr/system-message-plus-regex-plus-pii-plus-prompt-plus-hap-plus-custom-plus-lang
 oc apply -f language-detector.yaml
 ----
 +
